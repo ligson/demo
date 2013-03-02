@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+	<constant name="struts.enable.DynamicMethodInvocation" value="true" />
+	<constant name="struts.ognl.allowStaticMethodAccess" value="true" />
+	<constant name="struts.devMode" value="true" />
+	<constant name="struts.objectFactory" value="spring" />
+	<!--解决乱码 -->
+	<constant name="struts.i18n.encoding" value="UTF-8" />
+	<!-- 指定允许上传的文件最大字节数。默认值是2097152(2M) -->
+	<constant name="struts.multipart.maxSize" value="10701096" />
+	<!-- <constant name="struts.multipart.saveDir " value="/upload/tmp" /> -->
+
+
+	<package name="undifined" extends="struts-default">
+		<default-action-ref name="notFound" />
+		<action name="notFound">
+			<result>/404.jsp</result>
+		</action>
+	</package>
+	<package name="default" namespace="/" extends="json-default">
+		<default-action-ref name="index" />
+		<action name="index">
+			<result name="success">/index.jsp</result>
+		</action>
+		<action name="register" class="registerAction">
+			<result name="error">/register.jsp</result>
+			<result name="input">/login.jsp</result>
+		</action>
+		<action name="login" class="loginAction">
+			<result name="login">/login.jsp</result>
+			<result name="input">/login.jsp</result>
+			<result name="success" type="redirectAction">
+				<param name="namespace">/user</param>
+				<param name="actionName">userAction_list</param>
+			</result>
+		</action>
+		
+		<action name="checkNameUnique" class="checkNameUniqueAction">
+			<result type="json">
+				<!-- 这里指定将被Struts2序列化的属性，该属性在action中必须有对应的getter方法 -->
+				<!-- 默认将会序列所有有返回值的getter方法的值，而无论该方法是否有对应属性 -->
+				<param name="root">resultMap</param>
+				<!-- 指定是否序列化空的属性 -->
+				<!-- <param name="excludeNullProperties">true</param> -->
+				<!-- 这里指定将序列化dataMap中的那些属性 -->
+				<!-- <param name="includeProperties"> userList.* </param> -->
+				<!-- 这里指定将要从dataMap中排除那些属性，这些排除的属性将不被序列化，一半不与上边的参数配置同时出现 -->
+				<!-- <param name="excludeProperties"> SUCCESS </param> -->
+			</result>
+		</action>
+		
+	</package>
+
+	<package name="user" namespace="/user" extends="json-default">
+		<interceptors>
+			<!-- 定义权限控制拦截器 -->
+			<interceptor name="authority" class="userFilter" />
+			<!-- 定义一个包含权限控制的拦截器栈 -->
+			<interceptor-stack name="mydefault">
+				<interceptor-ref name="defaultStack" />
+				<interceptor-ref name="authority" />
+			</interceptor-stack>
+		</interceptors>
+		<!-- 定义默认拦截器 -->
+		<default-interceptor-ref name="mydefault" />
+
+
+		<global-results>
+			<result name="error">/error.jsp</result>
+			<!-- 逻辑名为login的结果，映射到/login.jsp页面 -->
+			<result name="login" type="redirect">/login.jsp</result>
+		</global-results>
+		<global-exception-mappings>
+			<exception-mapping exception="java.lang.Exception"
+				result="error" />
+		</global-exception-mappings>
+
+
+		<action name="checkNameUnique" class="checkNameUniqueAction">
+			<result type="json">
+				<!-- 这里指定将被Struts2序列化的属性，该属性在action中必须有对应的getter方法 -->
+				<!-- 默认将会序列所有有返回值的getter方法的值，而无论该方法是否有对应属性 -->
+				<param name="root">resultMap</param>
+				<!-- 指定是否序列化空的属性 -->
+				<!-- <param name="excludeNullProperties">true</param> -->
+				<!-- 这里指定将序列化dataMap中的那些属性 -->
+				<!-- <param name="includeProperties"> userList.* </param> -->
+				<!-- 这里指定将要从dataMap中排除那些属性，这些排除的属性将不被序列化，一半不与上边的参数配置同时出现 -->
+				<!-- <param name="excludeProperties"> SUCCESS </param> -->
+			</result>
+		</action>
+
+		<action name="userAction_*" class="userAction" method="{1}">
+			<result name="success">/user/user_{1}.jsp</result>
+			<result name="list" type="redirectAction">
+				<param name="namespace">/user</param>
+				<param name="actionName">userAction_list</param>
+			</result>
+		</action>
+		<action name="modifyUserInfoAction" class="modifyUserInfoAction">
+			<result name="success" type="redirect">userAction_view?uid=${user.id}
+			</result>
+			<result name="error">/user/user_modify.jsp</result>
+		</action>
+		<action name="modifyUserPicAction" class="modifyUserPicAction">
+			<result name="upload">/user/upload.jsp</result>
+			<result name="error">/user/upload.jsp</result>
+			<result name="success" type="redirect">userAction_view?uid=${uid}
+			</result>
+			<!-- <interceptor-ref name="fileUpload"> -->
+			<!-- 文件过滤 -->
+			<!-- <param name="allowedTypes">image/bmp,image/png,image/gif,image/jpeg</param> -->
+			<!-- 文件大小, 以字节为单位 -->
+			<!-- <param name="maximumSize">1025956</param> -->
+			<!-- </interceptor-ref> -->
+			<!-- 默认拦截器必须放在fileUpload之后，否则无效 -->
+			<!-- <interceptor-ref name="defaultStack" /> -->
+		</action>
+		<action name="uploadTestAction" class="uploadTestAction">
+			<result name="success" type="redirect">userAction_list
+			</result>
+			<result name="error">/user/user_modify.jsp</result>
+		</action>
+
+	</package>
+
+	<package name="role" namespace="/role" extends="json-default">
+	    <interceptors>
+			<!-- 定义权限控制拦截器 -->
+			<interceptor name="authority" class="userFilter" />
+			<!-- 定义一个包含权限控制的拦截器栈 -->
+			<interceptor-stack name="mydefault">
+				<interceptor-ref name="defaultStack" />
+				<interceptor-ref name="authority" />
+			</interceptor-stack>
+		</interceptors>
+		<!-- 定义默认拦截器 -->
+		<default-interceptor-ref name="mydefault" />
+
+
+		<global-results>
+			<result name="error">/error.jsp</result>
+			<!-- 逻辑名为login的结果，映射到/login.jsp页面 -->
+			<result name="login" type="redirect">/login.jsp</result>
+		</global-results>
+		<global-exception-mappings>
+			<exception-mapping exception="java.lang.Exception"
+				result="error" />
+		</global-exception-mappings>
+		
+		<action name="createRoleAction" class="roleTreeAction" method="createRole">
+			<result name="success" type="redirectAction">
+				<param name="namespace">/role</param>
+				<param name="actionName">roleTreeAction</param>
+			</result>
+		</action>
+		<action name="removeRoleAction" class="roleTreeAction" method="removeRole">
+			<result name="success" type="redirectAction">
+				<param name="namespace">/role</param>
+				<param name="actionName">roleTreeAction</param>
+			</result>
+		</action>
+		<action name="listRoleAction" class="roleTreeAction" method="list">
+			<result name="success" type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+		
+		<action name="roleTreeAction" class="roleTreeAction">
+			<result name="success">/role/roleTree.jsp</result>
+		</action>
+		<action name="countChildRoleAction" class="roleTreeAction" method="countChildRole">
+		    <result name="success" type="json">
+		        <param name="root">resultMap</param>
+		    </result>
+		</action> 
+	</package>
+</struts>
