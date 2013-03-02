@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns="http://www.springframework.org/schema/beans"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans  
+                     http://www.springframework.org/schema/beans/spring-beans.xsd  
+                     http://www.springframework.org/schema/tx  
+                     http://www.springframework.org/schema/tx/spring-tx.xsd  
+                     http://www.springframework.org/schema/aop  
+                     http://www.springframework.org/schema/aop/spring-aop.xsd " >
+
+    <bean
+        id="baseDao"
+        class="demo.dao.impl.BaseDaoImpl" >
+
+        <property
+            name="sessionFactory"
+            ref="mySessionFactory" >
+        </property>
+    </bean>
+
+    <bean
+        id="userDao"
+        class="demo.dao.impl.UserDaoImpl"
+        parent="baseDao" >
+    </bean>
+
+    <bean
+        id="userService"
+        class="demo.service.impl.UserServiceImpl" >
+
+        <property
+            name="userDao"
+            ref="userDao" />
+    </bean>
+
+    <bean
+        id="roleDao"
+        class="demo.dao.impl.RoleDaoImpl"
+        parent="baseDao" >
+    </bean>
+
+    <bean
+        id="roleService"
+        class="demo.service.impl.RoleServiceImpl" >
+
+        <property
+            name="roleDao"
+            ref="roleDao" />
+
+        <property
+            name="resourceGroupDao"
+            ref="resourceGroupDao" />
+
+        <property
+            name="userGroupDao"
+            ref="userGroupDao" />
+    </bean>
+
+    <bean
+        id="resourceDao"
+        class="demo.dao.impl.ResourceDaoImpl"
+        parent="baseDao" >
+    </bean>
+
+    <bean
+        id="resourceGroupDao"
+        class="demo.dao.impl.ResourceGroupDaoImpl"
+        parent="baseDao" >
+    </bean>
+
+    <bean
+        id="userGroupDao"
+        class="demo.dao.impl.UserGroupDaoImpl"
+        parent="baseDao" >
+    </bean>
+
+</beans>

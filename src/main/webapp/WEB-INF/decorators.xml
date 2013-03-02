@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<decorators defaultdir="/layout"> 
+       <decorator name="main" page="user.jsp"> 
+           <pattern>/user/*</pattern> 
+           <pattern>/role/*</pattern> 
+       </decorator> 
+</decorators>

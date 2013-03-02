@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+                     http://www.springframework.org/schema/beans/spring-beans.xsd  
+                     http://www.springframework.org/schema/tx  
+                     http://www.springframework.org/schema/tx/spring-tx.xsd  
+                     http://www.springframework.org/schema/aop  
+                     http://www.springframework.org/schema/aop/spring-aop.xsd ">
+
+
+	<!-- parent="parentBean" -->
+	<!-- abstract="true | false" -->
+	<!-- singleton="true | false" -->
+	<!-- lazy-init="true | false | default" -->
+	<!-- autowire = byName | byType | constructor | autodetect | default" 它定义了Bean的自动装载方式。 -->
+	<!-- dependency-check = "none | objects | simple | all | default" -->
+	<!-- depends-on="dependsOnBean" -->
+	<!-- init-method="method" -->
+	<!-- destroy-method="method" -->
+	<!-- factory-method="method" -->
+	<!--factory-bean="bean" -->
+	<!-- scope="request|context|session|application" -->
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+		scope="">
+		<property name="driverClassName">
+			<value>com.mysql.jdbc.Driver</value>
+		</property>
+		<property name="url">
+			<value>jdbc:mysql://127.0.0.1:3306/demo2</value> <!-- 其中参数：Service_path表示所连接数据库的IP，dataBase：表示所连接的数据库名 -->
+		</property>
+		<property name="username" value="root"></property>
+		<property name="password" value="password"></property>
+	</bean>
+
+	<!-- <bean id="mySessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"> 
+		<property name="configLocation" value="classpath:hibernate.cfg.xml" /> </bean> -->
+	<bean id="mySessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="packagesToScan">
+			<list>
+				<value>demo.domain</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">
+					org.hibernate.dialect.MySQLDialect
+				</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="current_session_context_class">org.springframework.orm.hibernate4.SpringSessionContext
+				</prop>
+			</props>
+		</property>
+	</bean>
+
+
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="mySessionFactory" />
+	</bean>
+
+	<!--注解型事务扫描  -->
+	<!-- <tx:annotation-driven /> -->
+	<tx:advice id="baseServiceAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="find*" read-only="true" propagation="REQUIRED" />
+			<tx:method name="add*" propagation="REQUIRED" />
+			<tx:method name="update*" propagation="REQUIRED" />
+			<tx:method name="save*" propagation="REQUIRED" />
+			<tx:method name="*" propagation="REQUIRED" />
+		</tx:attributes>
+	</tx:advice>
+	<aop:config>
+		<aop:pointcut expression="execution(public * demo.dao.impl..*.*(..))"
+			id="bussinessService" />
+		<aop:advisor advice-ref="baseServiceAdvice" pointcut-ref="bussinessService" />
+	</aop:config>
+
+	<!-- <bean id="autoProxyCreator" class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" 
+		/> -->
+	<bean id="exceptionHandler" class="demo.aop.advice.ExceptionHandler" />
+	<!-- 这里配置切入点，可以为正则表达式 .*DAOImpl\.delete.* -->
+	<bean id="exceptionHandlereAdvisor"
+		class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
+		<property name="advice">
+			<ref bean="exceptionHandler" />
+		</property>
+		<property name="patterns">
+			<list>
+				<!-- 切入包名中含impl字符的类主要为了捕获实现接口的类 -->
+				<value>.*impl*.*</value>
+				<!--  <value>demo.action.*</value>
+				<value>com.opensymphony.xwork2.interceptor.*</value>-->
+			</list>
+		</property>
+	</bean>
+
+	<!-- advisor=pointcut+advice -->
+	<bean id="methodInvokeAdvice" class="demo.aop.advice.MethodInvokeAdvice">
+	</bean>
+	<bean id="methodInvokeAdvisor"
+		class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
+		<property name="advice">
+			<ref bean="methodInvokeAdvice" />
+		</property>
+		<property name="patterns">
+			<list>
+				<!-- 切入包名中含impl字符的类主要为了捕获实现接口的类 -->
+				<value>.*impl.*</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="myAop" class="demo.aop.advice.MyAop"></bean>
+	<aop:config proxy-target-class="true">
+	    <aop:aspect id="actionAspect" ref="myAop">
+		    <aop:pointcut expression="execution(* demo.action.*.*(..))" id="actionPointCut"/>
+			<aop:before pointcut-ref="actionPointCut" method="before"/>  
+	        <aop:after pointcut-ref="actionPointCut" method="after"/>  
+	        <aop:around pointcut-ref="actionPointCut" method="around"/>  
+	    </aop:aspect>
+	</aop:config>
+
+	<bean id="systemInit" class="demo.util.SystemInit" />
+	<bean id="domainUtils" class="demo.util.DomainUtils" />
+	
+	<!-- domain的配置 -->
+	<import resource="spring-conf-domain.xml" />
+	<!-- action和filter的配置 -->
+	<import resource="spring-conf-actionOrFilter.xml" />
+	<!-- dao和service的配置 -->
+	<import resource="spring-conf-daoOrService.xml" />
+
+</beans>
