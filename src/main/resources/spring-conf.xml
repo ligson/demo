@@ -22,17 +22,31 @@
 	<!-- factory-method="method" -->
 	<!--factory-bean="bean" -->
 	<!-- scope="request|context|session|application" -->
-	<bean id="dataSource"
+	<!-- mysql config -->
+	<!-- <bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource"
 		scope="">
 		<property name="driverClassName">
 			<value>com.mysql.jdbc.Driver</value>
 		</property>
 		<property name="url">
-			<value>jdbc:mysql://127.0.0.1:3306/demo2</value> <!-- 其中参数：Service_path表示所连接数据库的IP，dataBase：表示所连接的数据库名 -->
+			<value>jdbc:mysql://127.0.0.1:3306/demo2</value>
 		</property>
 		<property name="username" value="root"></property>
 		<property name="password" value="password"></property>
+	</bean> -->
+	<!-- h2db config -->
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+		scope="">
+		<property name="driverClassName">
+			<value>org.h2.Driver</value>
+		</property>
+		<property name="url">
+			<value>jdbc:h2:file:~/.demo/demodb</value>
+		</property>
+		<property name="username" value="sa"></property>
+		<property name="password" value=""></property>
 	</bean>
 
 	<!-- <bean id="mySessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"> 
@@ -48,7 +62,7 @@
 		<property name="hibernateProperties">
 			<props>
 				<prop key="hibernate.dialect">
-					org.hibernate.dialect.MySQLDialect
+					org.hibernate.dialect.H2Dialect
 				</prop>
 				<prop key="hibernate.show_sql">true</prop>
 				<prop key="hibernate.hbm2ddl.auto">update</prop>
