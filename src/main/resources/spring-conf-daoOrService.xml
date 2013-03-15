@@ -76,5 +76,7 @@
         class="demo.dao.impl.UserGroupDaoImpl"
         parent="baseDao" >
     </bean>
+    
+    <bean id="mailService" class="demo.service.impl.MailServiceImpl"></bean>
 
 </beans>

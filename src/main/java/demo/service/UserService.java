@@ -27,4 +27,5 @@ public interface UserService {
 	public void modifyUserPicById(File file, String contentType, String uid);
 
 	public File buildExcel(List<User> users);
+	
 }
