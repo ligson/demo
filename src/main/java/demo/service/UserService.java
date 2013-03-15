@@ -25,4 +25,6 @@ public interface UserService {
 	public User getUserByNameAndPassword(String name, String password);
 
 	public void modifyUserPicById(File file, String contentType, String uid);
+
+	public File buildExcel(List<User> users);
 }

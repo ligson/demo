@@ -39,7 +39,7 @@
 				<param name="actionName">userAction_list</param>
 			</result>
 		</action>
-		
+
 		<action name="checkNameUnique" class="checkNameUniqueAction">
 			<result type="json">
 				<!-- 这里指定将被Struts2序列化的属性，该属性在action中必须有对应的getter方法 -->
@@ -53,7 +53,7 @@
 				<!-- <param name="excludeProperties"> SUCCESS </param> -->
 			</result>
 		</action>
-		
+
 	</package>
 
 	<package name="user" namespace="/user" extends="json-default">
@@ -95,6 +95,15 @@
 			</result>
 		</action>
 
+
+		<action name="downloadUserList" class="userAction">
+			<result type="stream">
+				<param name="contentType">application/vnd.ms-excel</param>
+				<param name="inputName">excelInputStream</param>
+				<param name="contentDisposition">attachment;filename="${fileName}"</param>
+				<param name="bufferSize">4096</param>
+			</result>
+		</action>
 		<action name="userAction_*" class="userAction" method="{1}">
 			<result name="success">/user/user_{1}.jsp</result>
 			<result name="list" type="redirectAction">
@@ -130,7 +139,7 @@
 	</package>
 
 	<package name="role" namespace="/role" extends="json-default">
-	    <interceptors>
+		<interceptors>
 			<!-- 定义权限控制拦截器 -->
 			<interceptor name="authority" class="userFilter" />
 			<!-- 定义一个包含权限控制的拦截器栈 -->
@@ -152,7 +161,7 @@
 			<exception-mapping exception="java.lang.Exception"
 				result="error" />
 		</global-exception-mappings>
-		
+
 		<action name="createRoleAction" class="roleTreeAction" method="createRole">
 			<result name="success" type="redirectAction">
 				<param name="namespace">/role</param>
@@ -170,14 +179,15 @@
 				<param name="root">result</param>
 			</result>
 		</action>
-		
+
 		<action name="roleTreeAction" class="roleTreeAction">
 			<result name="success">/role/roleTree.jsp</result>
 		</action>
-		<action name="countChildRoleAction" class="roleTreeAction" method="countChildRole">
-		    <result name="success" type="json">
-		        <param name="root">resultMap</param>
-		    </result>
-		</action> 
+		<action name="countChildRoleAction" class="roleTreeAction"
+			method="countChildRole">
+			<result name="success" type="json">
+				<param name="root">resultMap</param>
+			</result>
+		</action>
 	</package>
 </struts>

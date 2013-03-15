@@ -1,5 +1,9 @@
 package demo.action;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +25,7 @@ public class UserAction extends ActionSupport {
 	private long total;
 	private String uid;
 	private User user;
+	private String fileName;
 
 	public User getUser() {
 		return user;
@@ -104,5 +109,29 @@ public class UserAction extends ActionSupport {
 		userService.removeUserById(uid);
 		return "list";
 	}
+	
+	public InputStream getExcelInputStream(){
+		users = userService.list(offset, max);
+		File file = userService.buildExcel(users);
+		setFileName(file.getName());
+		FileInputStream fileInputStream;
+		try {
+			fileInputStream = new FileInputStream(file);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			return null;
+		}
+		return fileInputStream;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+	
+	
 
 }

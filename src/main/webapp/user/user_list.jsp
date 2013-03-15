@@ -104,5 +104,6 @@
 		<s:property value="@demo.tag.Pages@getCurrentPages(total,10)" />
 		页
 	</div>
+	<a href="${basePath}user/downloadUserList">download</a>
 </body>
 </html>
