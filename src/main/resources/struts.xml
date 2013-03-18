@@ -135,6 +135,12 @@
 			</result>
 			<result name="error">/user/user_modify.jsp</result>
 		</action>
+		
+		<action name="sendMailAction" class="userAction" method="sendMail">
+		    <result type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
 
 	</package>
 

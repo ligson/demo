@@ -5,11 +5,19 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.struts2.ServletActionContext;
+import org.springframework.web.context.ServletConfigAware;
 
 import com.opensymphony.xwork2.ActionSupport;
 
 import demo.domain.User;
+import demo.service.MailService;
 import demo.service.UserService;
 
 public class UserAction extends ActionSupport {
@@ -26,9 +34,18 @@ public class UserAction extends ActionSupport {
 	private String uid;
 	private User user;
 	private String fileName;
+	private Map<String, Object> result = new HashMap<String, Object>();
 
 	public User getUser() {
 		return user;
+	}
+
+	public Map<String, Object> getResult() {
+		return result;
+	}
+
+	public void setResult(Map<String, Object> result) {
+		this.result = result;
 	}
 
 	public void setUser(User user) {
@@ -109,8 +126,8 @@ public class UserAction extends ActionSupport {
 		userService.removeUserById(uid);
 		return "list";
 	}
-	
-	public InputStream getExcelInputStream(){
+
+	public InputStream getExcelInputStream() {
 		users = userService.list(offset, max);
 		File file = userService.buildExcel(users);
 		setFileName(file.getName());
@@ -131,7 +148,12 @@ public class UserAction extends ActionSupport {
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
 	}
-	
-	
+
+	public String sendMail() {
+		HttpServletRequest request = ServletActionContext.getRequest ();
+		User currentUser = (User) request.getSession().getAttribute("currentUser");
+		userService.sendMail(currentUser,getUid());
+		return SUCCESS;
+	}
 
 }

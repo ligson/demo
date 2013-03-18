@@ -23,7 +23,7 @@
 	<!--factory-bean="bean" -->
 	<!-- scope="request|context|session|application" -->
 	<!-- mysql config -->
-	<!-- <bean id="dataSource"
+	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource"
 		scope="">
 		<property name="driverClassName">
@@ -34,9 +34,9 @@
 		</property>
 		<property name="username" value="root"></property>
 		<property name="password" value="password"></property>
-	</bean> -->
+	</bean>
 	<!-- h2db config -->
-	<bean id="dataSource"
+	<!-- <bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource"
 		scope="">
 		<property name="driverClassName">
@@ -48,7 +48,7 @@
 		<property name="username" value="sa"></property>
 		<property name="password" value=""></property>
 	</bean>
-
+ -->
 	<!-- <bean id="mySessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"> 
 		<property name="configLocation" value="classpath:hibernate.cfg.xml" /> </bean> -->
 	<bean id="mySessionFactory"
@@ -62,7 +62,7 @@
 		<property name="hibernateProperties">
 			<props>
 				<prop key="hibernate.dialect">
-					org.hibernate.dialect.H2Dialect
+					org.hibernate.dialect.MySQLDialect
 				</prop>
 				<prop key="hibernate.show_sql">true</prop>
 				<prop key="hibernate.hbm2ddl.auto">update</prop>

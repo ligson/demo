@@ -57,6 +57,13 @@
 	margin-left: 5px;
 }
 </style>
+<script type="text/javascript">
+	function sendMail(uid){
+		$.post("${basePath}user/sendMailAction",{uid:uid},function(data){
+			alert(data);
+		});
+	}
+</script>
 </head>
 <body>
 	<table border="1" class="tbl">
@@ -91,7 +98,9 @@
 			<td><s:property value='#u.email' /></td>
 			<td><a href="${basePath}user/userAction_view?uid=${u.id}">查看详细信息</a>
 				<a href="${basePath}user/userAction_remove?uid=${u.id}">删除</a> <a
-				href="${basePath}user/userAction_modify?uid=${u.id}">修改信息</a></td>
+				href="${basePath}user/userAction_modify?uid=${u.id}">修改信息</a>
+				<a href="javascript:void(0);" onclick="sendMail('${u.id}')">发送邮件</a>
+				</td>
 			</tr>
 		</s:iterator>
 	</table>

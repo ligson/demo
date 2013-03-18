@@ -1,8 +1,12 @@
 package demo.service.impl;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.util.Map;
 import java.util.Properties;
 
@@ -31,7 +35,10 @@ public class MailServiceImpl implements MailService {
 			// 通过Freemaker的Configuration读取相应的ftl
 			Configuration cfg = new Configuration();
 			// 设定去哪里读取相应的ftl模板文件
-			cfg.setClassForTemplateLoading(this.getClass(), "/mailTemplate");
+			File mailTemplateDir = new File(SystemInit.webappPath,"mailTemplate");
+			System.out.println(mailTemplateDir.exists());
+			System.out.println(mailTemplateDir.getAbsolutePath());
+			cfg.setDirectoryForTemplateLoading(mailTemplateDir);
 			// 在模板文件目录中找到名称为name的文件
 			Template temp = cfg.getTemplate(name);
 			return temp;
@@ -60,12 +67,13 @@ public class MailServiceImpl implements MailService {
 			messageHelper.setFrom(sender.getEmail());
 			messageHelper.setSubject("测试HTML邮件！");
 			Template template2 = getTemplate(template);
-
-			File tmp = File.createTempFile("mail", "txt");
-			FileWriter fileWriter = new FileWriter(tmp);
-			template2.process(params, fileWriter);
+			template2.setEncoding("UTF-8");
+			File tmp = File.createTempFile("mail", "html");
+			Writer out = new BufferedWriter(new FileWriter(tmp));
+			template2.process(params, out);
 
 			String result = FileUtils.readFileToString(tmp);
+			System.out.println(result);
 			// true 表示启动HTML格式的邮件
 			messageHelper.setText(result, true);
 

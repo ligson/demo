@@ -28,4 +28,6 @@ public interface UserService {
 
 	public File buildExcel(List<User> users);
 	
+	public void sendMail(User currentUser,String receiverId);
+	
 }

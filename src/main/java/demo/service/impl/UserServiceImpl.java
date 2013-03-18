@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,19 +17,31 @@ import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.struts2.ServletActionContext;
+import org.springframework.web.bind.ServletRequestUtils;
+import org.springframework.web.context.request.RequestContextHolder;
 
 import demo.dao.UserDao;
 import demo.domain.User;
+import demo.service.MailService;
 import demo.service.UserService;
 import demo.util.DateUtils;
+import demo.util.SystemInit;
 
 public class UserServiceImpl implements UserService {
 
 	private UserDao userDao;
+	private MailService mailService;
+
+	public MailService getMailService() {
+		return mailService;
+	}
+
+	public void setMailService(MailService mailService) {
+		this.mailService = mailService;
+	}
 
 	@Override
 	public String register(User user) {
@@ -144,21 +158,20 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public File buildExcel(List<User> users) {
 		try {
-			
+
 			HSSFWorkbook workbook = new HSSFWorkbook();
 			Sheet sheet = workbook.createSheet();
 			Row row = sheet.createRow(0);
-			row.setHeight((short)50);
-			
-			HSSFCellStyle cellStyle=workbook.createCellStyle();
+			row.setHeight((short) 50);
+
+			HSSFCellStyle cellStyle = workbook.createCellStyle();
 			cellStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
 			cellStyle.setFillForegroundColor(HSSFColor.LIGHT_YELLOW.index);
-			
-			HSSFFont fontStyle =workbook.createFont();
+
+			HSSFFont fontStyle = workbook.createFont();
 			fontStyle.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
 			cellStyle.setFont(fontStyle);
-			
-			
+
 			Cell cell1 = row.createCell(0);
 			Cell cell2 = row.createCell(1);
 			Cell cell3 = row.createCell(2);
@@ -170,13 +183,12 @@ public class UserServiceImpl implements UserService {
 			cell3.setCellValue("性别");
 			cell4.setCellValue("出生日期");
 			cell5.setCellValue("email");
-			
+
 			cell1.setCellStyle(cellStyle);
 			cell2.setCellStyle(cellStyle);
 			cell3.setCellStyle(cellStyle);
 			cell4.setCellStyle(cellStyle);
 			cell5.setCellStyle(cellStyle);
-			
 
 			int i = 1;
 			for (User user : users) {
@@ -189,20 +201,30 @@ public class UserServiceImpl implements UserService {
 
 				_cell1.setCellValue(user.getId());
 				_cell2.setCellValue(user.getName());
-				_cell3.setCellValue(user.isSex()?"男":"女");
-				_cell4.setCellValue(DateUtils.dateTextToFormat(user.getBirth(), "yyyyMMddHHmmss", "yyyy-MM-dd"));
+				_cell3.setCellValue(user.isSex() ? "男" : "女");
+				_cell4.setCellValue(DateUtils.dateTextToFormat(user.getBirth(),
+						"yyyyMMddHHmmss", "yyyy-MM-dd"));
 				_cell5.setCellValue(user.getEmail());
 			}
-			
+
 			File file = File.createTempFile("user", "xls");
 			FileOutputStream fileOutputStream = new FileOutputStream(file);
 			workbook.write(fileOutputStream);
 			fileOutputStream.close();
-			return file;	
+			return file;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@Override
+	public void sendMail(User currentUser, String receiverId) {
+		User receiver = userDao.getById(receiverId);
+		Map<String,Object> params = new HashMap<String, Object>();
+		params.put("username",receiver.getName());
+		params.put("email",currentUser.getEmail());
+		mailService.sendMail(currentUser, receiver, "ModifyPassword.html", params);
 	}
 
 }

@@ -13,6 +13,7 @@ public class SystemInit implements InitializingBean {
 
 	public static final String userdir = System.getProperty("user.home");
 	public static final File demoRootDir = new File(userdir, ".demo");
+	public static String webappPath;
 	public static MailConfig mailConfig;
 	static {
 		if (!demoRootDir.exists()) {
@@ -24,6 +25,7 @@ public class SystemInit implements InitializingBean {
 	public void afterPropertiesSet() throws Exception {
 		configH2db();
 		configSys();
+		setWebRootPath();
 		System.out.println("http://127.0.0.1:8080/demo");
 	}
 
@@ -44,6 +46,12 @@ public class SystemInit implements InitializingBean {
 			FileUtils.copyFile(resourceFile, userConfig);
 		}
 		mailConfig = MailConfig.getInstance(userConfig);
+	}
+	
+	public void setWebRootPath(){
+		String u=this.getClass().getResource("/").getPath();
+		File file = new File(u).getParentFile().getParentFile();
+		webappPath = file.getAbsolutePath();
 	}
 
 }
