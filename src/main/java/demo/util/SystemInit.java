@@ -1,57 +1,80 @@
 package demo.util;
 
 import java.io.File;
-import java.net.URL;
+import java.io.IOException;
+
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.web.context.ContextLoaderListener;
 
+import demo.dao.util.DBConfig;
 import demo.mail.utils.MailConfig;
 
-public class SystemInit implements InitializingBean {
+public class SystemInit extends ContextLoaderListener implements
+		ServletContextListener, InitializingBean {
 
 	public static final String userdir = System.getProperty("user.home");
 	public static final File demoRootDir = new File(userdir, ".demo");
 	public static String webappPath;
-	public static MailConfig mailConfig;
+	private static final File dbFile;
+	private static final File userConfig;
+	private Log log = LogFactory.getLog(SystemInit.class);
 	static {
 		if (!demoRootDir.exists()) {
 			demoRootDir.mkdirs();
 		}
+
+		dbFile = new File(demoRootDir, "demodb");
+		if (!dbFile.exists()) {
+			try {
+				dbFile.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		ClassPathResource classPathResource = new ClassPathResource(
+				"demoConfig.properties");
+
+		File resourceFile = null;
+		try {
+			resourceFile = classPathResource.getFile();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		userConfig = new File(demoRootDir, resourceFile.getName());
+
+		if (!userConfig.exists()) {
+			try {
+				FileUtils.copyFile(resourceFile, userConfig);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
 	}
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		configH2db();
-		configSys();
 		setWebRootPath();
 		System.out.println("http://127.0.0.1:8080/demo");
 	}
 
-	public void configH2db() throws Exception {
-		File dbFile = new File(demoRootDir, "demodb");
-		if (!dbFile.exists()) {
-			dbFile.createNewFile();
-		}
-	}
-
-	public void configSys() throws Exception {
-		ClassPathResource classPathResource = new ClassPathResource("demoConfig.properties");
-		
-		File resourceFile = classPathResource.getFile();
-		File userConfig = new File(demoRootDir,resourceFile.getName());
-		
-		if(!userConfig.exists()){
-			FileUtils.copyFile(resourceFile, userConfig);
-		}
-		mailConfig = MailConfig.getInstance(userConfig);
-	}
-	
-	public void setWebRootPath(){
-		String u=this.getClass().getResource("/").getPath();
+	public void setWebRootPath() {
+		String u = this.getClass().getResource("/").getPath();
 		File file = new File(u).getParentFile().getParentFile();
 		webappPath = file.getAbsolutePath();
+	}
+
+	@Override
+	public void contextInitialized(ServletContextEvent event) {
+		log.info("spring startup");
 	}
 
 }

@@ -9,6 +9,7 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.Map;
 import java.util.Properties;
+import java.util.UUID;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -30,15 +31,17 @@ public class MailServiceImpl implements MailService {
 
 	private static final Log log = LogFactory.getLog(MailServiceImpl.class);
 
+	private MailConfig mailConfig;
 	private Template getTemplate(String name) {
 		try {
 			// 通过Freemaker的Configuration读取相应的ftl
 			Configuration cfg = new Configuration();
+			cfg.setDefaultEncoding("UTF-8");
 			// 设定去哪里读取相应的ftl模板文件
 			File mailTemplateDir = new File(SystemInit.webappPath,"mailTemplate");
-			System.out.println(mailTemplateDir.exists());
-			System.out.println(mailTemplateDir.getAbsolutePath());
+			
 			cfg.setDirectoryForTemplateLoading(mailTemplateDir);
+			
 			// 在模板文件目录中找到名称为name的文件
 			Template temp = cfg.getTemplate(name);
 			return temp;
@@ -53,7 +56,6 @@ public class MailServiceImpl implements MailService {
 			Map<String, Object> params) {
 		JavaMailSenderImpl senderImpl = new JavaMailSenderImpl();
 
-		MailConfig mailConfig = SystemInit.mailConfig;
 		// 设定mail server
 		senderImpl.setHost(mailConfig.getMailServer());
 
@@ -67,8 +69,7 @@ public class MailServiceImpl implements MailService {
 			messageHelper.setFrom(sender.getEmail());
 			messageHelper.setSubject("测试HTML邮件！");
 			Template template2 = getTemplate(template);
-			template2.setEncoding("UTF-8");
-			File tmp = File.createTempFile("mail", "html");
+			File tmp = File.createTempFile(UUID.randomUUID().toString(),"html");
 			Writer out = new BufferedWriter(new FileWriter(tmp));
 			template2.process(params, out);
 
@@ -76,7 +77,8 @@ public class MailServiceImpl implements MailService {
 			System.out.println(result);
 			// true 表示启动HTML格式的邮件
 			messageHelper.setText(result, true);
-
+			mailMessage.setContent(result, "text/html;charset=UTF-8");
+			mailMessage.setHeader("Content-Transfer-Encoding", "base64"); // 指定使用base64编码
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
@@ -93,5 +95,15 @@ public class MailServiceImpl implements MailService {
 
 		log.info("邮件发送成功..");
 	}
+
+	public MailConfig getMailConfig() {
+		return mailConfig;
+	}
+
+	public void setMailConfig(MailConfig mailConfig) {
+		this.mailConfig = mailConfig;
+	}
+	
+	
 
 }

@@ -60,7 +60,11 @@
 <script type="text/javascript">
 	function sendMail(uid){
 		$.post("${basePath}user/sendMailAction",{uid:uid},function(data){
-			alert(data);
+			if(data.result=="success"){
+				alert("邮件发送成功！");
+			}else{
+				alert("邮件发送失败，错误信息:"+data.errorMsg);
+			}
 		});
 	}
 </script>

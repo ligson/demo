@@ -6,6 +6,12 @@
 
 
 	<display-name>demo</display-name>
+	
+	<listener>
+        <listener-class>
+           	demo.util.SystemInit
+        </listener-class>
+    </listener>
 
 	<!-- Setting an Listener in order to integration struts and spring -->
 	<listener>

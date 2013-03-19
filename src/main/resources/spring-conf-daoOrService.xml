@@ -47,6 +47,8 @@
 		parent="baseDao">
 	</bean>
 
-	<bean id="mailService" class="demo.service.impl.MailServiceImpl"></bean>
+	<bean id="mailService" class="demo.service.impl.MailServiceImpl">
+	    <property name="mailConfig" ref="mailConfig"/>
+	</bean>
 
 </beans>

@@ -11,6 +11,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.web.context.ServletConfigAware;
 
@@ -35,7 +37,7 @@ public class UserAction extends ActionSupport {
 	private User user;
 	private String fileName;
 	private Map<String, Object> result = new HashMap<String, Object>();
-
+	private Log log = LogFactory.getLog(UserAction.class);
 	public User getUser() {
 		return user;
 	}
@@ -152,7 +154,14 @@ public class UserAction extends ActionSupport {
 	public String sendMail() {
 		HttpServletRequest request = ServletActionContext.getRequest ();
 		User currentUser = (User) request.getSession().getAttribute("currentUser");
-		userService.sendMail(currentUser,getUid());
+		try{
+			userService.sendMail(currentUser,getUid());
+			result.put("result", "success");
+		}catch(Exception e){
+			result.put("result", "fail");
+			result.put("errorMsg", e.getMessage());
+			log.error("邮件发送失败", e);
+		}
 		return SUCCESS;
 	}
 
