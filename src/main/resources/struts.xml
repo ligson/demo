@@ -39,6 +39,9 @@
 				<param name="actionName">userAction_list</param>
 			</result>
 		</action>
+		<action name="logout" class="logoutAction">
+		    <result type="redirect">/logout.jsp</result>
+		</action>
 
 		<action name="checkNameUnique" class="checkNameUniqueAction">
 			<result type="json">
