@@ -17,6 +17,8 @@
 	<bean id="loginAction" class="demo.action.LoginAction" scope="prototype">
 		<property name="userService" ref="userService"></property>
 	</bean>
+	<bean id="logoutAction" class="demo.action.LogoutAction" scope="prototype">
+	</bean>
 	<bean id="userAction" class="demo.action.UserAction" scope="prototype">
 		<property name="userService" ref="userService"></property>
 	</bean>
