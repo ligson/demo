@@ -10,6 +10,7 @@
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
 	pageContext.setAttribute("basePath", basePath);
+	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -52,13 +53,14 @@
 		<p><span style="vertical-align:middle;"><img alt="logo" src="<%=basePath%>style/default/images/icon_youtube_home.png" border="0"></span>&nbsp;演示学习</p>
 		<div>
 			欢迎你：<a href="${basePath}user/userAction_view?uid=${currentUser.id}" class="my" id="mylink">${currentUser.name}</a>
-			<div id="mymenu" style="display:none;">
-				<span>sssss</span>
-				<span>sssss</span>
-				<span>sssss</span>
-			</div>
-		</ul>
-			<a href="logout">注销</a>
+			
+		
+				<div id="mymenu" style="display:none;" >
+					<span>sssss</span>
+					<span>sssss</span>
+					<span>sssss</span>
+				</div>
+			光临本系统,<a href="<%=basePath%>logout">注销!</a>
 		</div>
 	</div>
 	<div id="main">
