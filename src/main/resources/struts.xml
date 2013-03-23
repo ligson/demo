@@ -40,7 +40,7 @@
 			</result>
 		</action>
 		<action name="logout" class="logoutAction">
-		    <result type="redirect">/logout.jsp</result>
+		    <result type="redirect">/login.jsp</result>
 		</action>
 
 		<action name="checkNameUnique" class="checkNameUniqueAction">

@@ -1,5 +1,6 @@
 package demo.action;
 
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class LogoutAction extends ActionSupport {
@@ -12,8 +13,10 @@ public class LogoutAction extends ActionSupport {
 	@Override
 	public String execute() {
 		// TODO Auto-generated method stub
-		
-		System.out.println("logout");
+		if(ActionContext.getContext().getSession().get("currentUser")!=null)
+		{
+			ActionContext.getContext().getSession().remove("currentUser");
+		}
 		return SUCCESS;
 	}
 	

@@ -54,7 +54,6 @@
 		<div>
 			欢迎你：<a href="${basePath}user/userAction_view?uid=${currentUser.id}" class="my" id="mylink">${currentUser.name}</a>
 			
-		
 				<div id="mymenu" style="display:none;" >
 					<span>sssss</span>
 					<span>sssss</span>
