@@ -12,7 +12,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>login</title>
-<link href="<%=basePath %>style/default/css/layout_login.css" rel="stylesheet" type="text/css">
+<link rel="shortcut icon" href="<%=basePath %>skin/default/images/favicon.ico" type="image/x-icon" />
+<link href="<%=basePath %>skin/default/css/layout_login.css" rel="stylesheet" type="text/css">
 </head>
 <body class="logincss" screen_capture_injected="true">
 	<s:debug></s:debug>
@@ -67,7 +68,7 @@
 									<tbody>
 										<tr>
 											<td align="center"><input type="image" name="IBtnLogin" id="IBtnLogin"
-												border="0" src="js/images/btn_login.gif"
+												border="0" src="<%=basePath %>skin/default/images/btn_login.gif"
 												style="border-width: 0px;"></td>
 											<td  align="center"><a href="">忘记密码？</a></td>
 										</tr>
@@ -85,7 +86,7 @@
 		</div>
 		<p>
 			Copyright <span class="copyright">©</span> 2012-2013 沙舟狼客工作室<img
-				border="0" hspace="0" vspace="0" src="js/images/pic.gif">
+				border="0" hspace="0" vspace="0" src="<%=basePath %>skin/default/images/pic.gif">
 		</p>
 
 		<div></div>

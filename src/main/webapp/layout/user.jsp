@@ -16,9 +16,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="shortcut icon" href="<%=basePath %>style/default/images/favicon.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="<%=basePath %>skin/default/images/favicon.ico" type="image/x-icon" />
 <title>演示学习-<decorator:title default="装饰器页面..." /></title>
-<link type="text/css" href="<%=basePath %>style/default/css/base.css" rel="stylesheet"/>
+<link type="text/css" href="<%=basePath %>skin/default/css/base.css" rel="stylesheet"/>
 <link type="text/css" href="<%=basePath%>js/jquery-ui.css" rel="stylesheet"/>
 <script type="text/javascript" src="<%=basePath%>js/jquery-1.8.3.js"></script>
 <script type="text/javascript" src="<%=basePath%>js/jquery-ui-1.9.2.js"></script>
