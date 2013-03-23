@@ -50,7 +50,7 @@
 <body>
 
 	<div id="header">
-		<p><span style="vertical-align:middle;"><img alt="logo" src="<%=basePath%>style/default/images/icon_youtube_home.png" border="0"></span>&nbsp;演示学习</p>
+		<p><span style="vertical-align:middle;"><img alt="logo" src="<%=basePath%>skin/default/images/icon_youtube_home.png" border="0"></span>&nbsp;演示学习</p>
 		<div>
 			欢迎你：<a href="${basePath}user/userAction_view?uid=${currentUser.id}" class="my" id="mylink">${currentUser.name}</a>
 			

@@ -58,7 +58,7 @@
 						</tr>
 						<tr height="30">
 							<td>
-								<input type="checkbox" name="" >
+								<input type="checkbox"  >
 								两周内不用登陆
 							</td>
 						</tr>
@@ -67,7 +67,7 @@
 								<table border="0" width="100%" height="100%" cellpadding="0" cellspacing="0">
 									<tbody>
 										<tr>
-											<td align="center"><input type="image" name="IBtnLogin" id="IBtnLogin"
+											<td align="center"><input type="image"  id="IBtnLogin"
 												border="0" src="<%=basePath %>skin/default/images/btn_login.gif"
 												style="border-width: 0px;"></td>
 											<td  align="center"><a href="">忘记密码？</a></td>

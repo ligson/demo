@@ -90,7 +90,7 @@
 			<td><s:property value="#st.index+1" /></td>
 			<td><s:property value='#u.name' /></td>
 			<td><img src="<%=basePath %>${u.pic}"
-				onerror="this.src='<%=basePath %>style/default/images/guest.jpg'"
+				onerror="this.src='<%=basePath %>skin/default/images/guest.jpg'"
 				width=50 height=50 alt="" /></td>
 			<td><s:if test="#u.sex">
 					男

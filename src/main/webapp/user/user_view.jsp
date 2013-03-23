@@ -20,7 +20,7 @@
 pic:
 
 
-<img src="<%=basePath %>${user.pic}" onerror="this.src='<%=basePath %>style/default/images/guest.jpg'" width=100 height=100 alt=""/>
+<img src="<%=basePath %>${user.pic}" onerror="this.src='<%=basePath %>skin/default/images/guest.jpg'" width=100 height=100 alt=""/>
 
 
 <a href="<%=basePath%>user/modifyUserPicAction?uid=${user.id}">更改头像</a><br/>
