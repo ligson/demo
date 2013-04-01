@@ -1,6 +1,7 @@
 package demo.action;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.struts2.components.ActionError;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
@@ -66,6 +67,7 @@ public class LoginAction extends ActionSupport {
 										getPassword()));
 				return SUCCESS;
 			} else {
+				addActionError("用户名不存在或者密码错误！");
 				return LOGIN;
 			}
 		}
