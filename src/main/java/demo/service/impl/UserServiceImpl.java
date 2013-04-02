@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.jws.WebService;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.io.FileUtils;
@@ -20,15 +21,15 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.struts2.ServletActionContext;
-import org.springframework.web.bind.ServletRequestUtils;
-import org.springframework.web.context.request.RequestContextHolder;
 
 import demo.dao.UserDao;
 import demo.domain.User;
 import demo.service.MailService;
 import demo.service.UserService;
 import demo.util.DateUtils;
-import demo.util.SystemInit;
+
+@WebService(endpointInterface = "demo.service.UserService",   
+           serviceName = "demoUserService") 
 
 public class UserServiceImpl implements UserService {
 

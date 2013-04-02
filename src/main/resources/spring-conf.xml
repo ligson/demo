@@ -172,5 +172,7 @@
 	<import resource="spring-conf-actionOrFilter.xml" />
 	<!-- dao和service的配置 -->
 	<import resource="spring-conf-daoOrService.xml" />
+	<!-- WebSrvice的配置CXF -->
+	<import resource="spring-conf-jaws.xml" />
 
 </beans>

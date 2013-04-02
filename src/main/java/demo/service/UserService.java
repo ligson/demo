@@ -3,10 +3,15 @@ package demo.service;
 import java.io.File;
 import java.util.List;
 
+import javax.jws.WebParam;
+import javax.jws.WebService;
+import javax.xml.ws.WebFault;
+
 import demo.domain.User;
 
+@WebService
 public interface UserService {
-	public String register(User user);
+	public String register(@WebParam(name="user")User user);
 
 	public boolean nameIsUnique(String name);
 
