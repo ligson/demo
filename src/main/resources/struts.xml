@@ -9,6 +9,7 @@
 	<constant name="struts.ognl.allowStaticMethodAccess" value="true" />
 	<constant name="struts.devMode" value="true" />
 	<constant name="struts.objectFactory" value="spring" />
+	<constant name="struts.action.excludePattern" value="/services.*"/>
 	<!--解决乱码 -->
 	<constant name="struts.i18n.encoding" value="UTF-8" />
 	<!-- 指定允许上传的文件最大字节数。默认值是2097152(2M) -->

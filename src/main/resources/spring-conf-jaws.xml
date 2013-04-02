@@ -14,8 +14,8 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 
 	<jaxws:endpoint 
 	  id="demoUserService" 
-	  implementor="demo.service.impl.UserServiceImpl" 
-	  address="/demo/services" />
+	  implementor="#userService" 
+	  address="/demoUserService" />
 	  
 </beans>
 <!-- END SNIPPET: beans -->
