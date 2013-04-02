@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.servlet.http.HttpServletRequest;
 
@@ -156,6 +157,7 @@ public class UserServiceImpl implements UserService {
 		userDao.updateProperty("pic", destName, uid);
 	}
 
+	@WebMethod(exclude=true)
 	@Override
 	public File buildExcel(List<User> users) {
 		try {
@@ -219,6 +221,7 @@ public class UserServiceImpl implements UserService {
 		return null;
 	}
 
+	@WebMethod(exclude=true)
 	@Override
 	public void sendMail(User currentUser, String receiverId) {
 		User receiver = userDao.getById(receiverId);

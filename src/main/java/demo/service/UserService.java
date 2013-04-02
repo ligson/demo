@@ -32,9 +32,8 @@ public interface UserService {
 
 	public void modifyUserPicById(File file, String contentType, String uid);
 
-	@WebMethod(exclude=true)
 	public File buildExcel(List<User> users);
-	@WebMethod(exclude=true)
-	public void sendMail(User currentUser,String receiverId);
-	
+
+	public void sendMail(User currentUser, String receiverId);
+
 }
