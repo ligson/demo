@@ -5,6 +5,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.DefaultComboBoxModel;
 
 import javax.swing.DefaultCellEditor;
@@ -20,6 +23,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
+import org.apache.struts2.views.jsp.ui.FileTag;
 
 /**
 * This code was edited or generated using CloudGarden's Jigloo
@@ -43,10 +47,11 @@ public class UploadListDialog extends JDialog implements ActionListener,MouseLis
 	private String allowTypes = "jpg;gif";
 	private JScrollPane jScrollPane1;
 	private JTable uploadTable;
+	private JButton removeButton;
 	private JButton reverseSelectButton;
 	private JButton selectAllButton;
-	TableModel uploadTableModel = new FileUploadTableModel();
-
+	private FileUploadTableModel uploadTableModel = new FileUploadTableModel();
+	private List<File> uploadFiles = new ArrayList<File>();
 	public UploadListDialog() {
 		setTitle("文件上传对话框");
 		this.setSize(500, 312);
@@ -71,10 +76,6 @@ public class UploadListDialog extends JDialog implements ActionListener,MouseLis
 				
 				jScrollPane1.setViewportView(uploadTable);
 				uploadTable.setModel(uploadTableModel);
-				TableColumn column = uploadTable.getColumnModel().getColumn(0);
-
-				column.setCellEditor(new DefaultCellEditor(new JCheckBox()));
-				column.setCellRenderer(new CheckBoxTableCellRenderer());
 				uploadTable.setPreferredSize(new java.awt.Dimension(465, 168));
 			}
 		}
@@ -92,6 +93,13 @@ public class UploadListDialog extends JDialog implements ActionListener,MouseLis
 			reverseSelectButton.setText("\u53cd\u9009");
 			reverseSelectButton.setBounds(98, 237, 65, 24);
 		}
+		{
+			removeButton = new JButton();
+			getContentPane().add(removeButton);
+			removeButton.setText("\u79fb\u9664");
+			removeButton.setBounds(182, 237, 70, 24);
+			removeButton.addActionListener(this);
+		}
 		uploadButton.addActionListener(this);
 		selectButton.addActionListener(this);
 		FileNameExtensionFilter extensionFilter = new FileNameExtensionFilter(
@@ -102,34 +110,41 @@ public class UploadListDialog extends JDialog implements ActionListener,MouseLis
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == uploadButton) {
+		if (e.getSource() == selectButton) {
 			int returnVal = jFileChooser.showOpenDialog(this);
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				if (allowMultiSelect) {
 					File[] files = jFileChooser.getSelectedFiles();
-
+					for(File file:files){
+						String fileName = file.getName();
+						String[] types  = fileName.split("\\.");
+						uploadTableModel.addRow(fileName, types[types.length-1], (int)file.length()/1024);
+						uploadFiles.add(file);
+					}
 				} else {
 					File file = jFileChooser.getSelectedFile();
+					String fileName = file.getName();
+					String[] types  = fileName.split("\\.");
+					uploadTableModel.addRow(fileName, types[types.length-1], (int)file.length()/1024);
+					uploadFiles.add(file);
 				}
 			}
 		}else if(e.getSource()==selectAllButton){
-			int rowCount = uploadTableModel.getRowCount();
-			System.out.println(rowCount);
-			for(int i =0;i<rowCount;i++){
-				System.out.println(uploadTableModel.getValueAt(i, 0).getClass().getName());
-				Boolean boolean1 = (Boolean) uploadTableModel.getValueAt(i, 0);
-				System.out.println(boolean1);
-				uploadTableModel.setValueAt(new Boolean(true), i, 0);
-				boolean1 = (Boolean) uploadTableModel.getValueAt(i, 0);
-				System.out.println(boolean1);
-				
-			}
-			
+			uploadTable.selectAll();
 		}else if (e.getSource()==reverseSelectButton) {
-			int rowCount = uploadTableModel.getRowCount();
-			for(int i =0;i<rowCount;i++){
-				Boolean boolean1 = (Boolean) uploadTableModel.getValueAt(i, 0);
-				uploadTableModel.setValueAt(new Boolean(!boolean1.booleanValue()), i, 0);
+			
+		}else if (e.getSource()==removeButton) {
+			int[] rows = uploadTable.getSelectedRows();
+			for(int row:rows){
+				
+				String fileName = (String) uploadTableModel.getValueAt(row, 0);
+				for(File file:uploadFiles){
+					if(file.getName().equals(fileName)){
+						uploadFiles.remove(file);
+						break;
+					}
+				}
+				uploadTableModel.removeRow(row);
 			}
 		}
 
