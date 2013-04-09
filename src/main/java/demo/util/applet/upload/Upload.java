@@ -16,7 +16,9 @@ public class Upload extends Applet implements ActionListener{
 	private long allowMaxSize = 1024;
 	private String allowTypes="jpg;gif";
 	private JButton uploadButton = new JButton("upload");
-	UploadListDialog dialog = new UploadListDialog();
+	private String host = "127.0.0.1";
+	private String port = "8821";
+	private UploadListDialog dialog = new UploadListDialog(allowMaxSize,allowTypes,host,port);
 	@Override
 	public void init() {
 		add(uploadButton);

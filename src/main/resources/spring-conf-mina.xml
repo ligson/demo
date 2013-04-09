@@ -8,5 +8,42 @@
                      http://www.springframework.org/schema/tx/spring-tx.xsd  
                      http://www.springframework.org/schema/aop  
                      http://www.springframework.org/schema/aop/spring-aop.xsd ">
-	<bean id="trapHandler" class="com.ashishpaliwal.udp.mina.server.ServerHandler" />  
+	<bean id="trapHandler" class="demo.upload.service.ServerHandler" />
+	<bean id="snmpCodecFilter" class="org.apache.mina.filter.codec.ProtocolCodecFilter">
+		<constructor-arg>
+			<bean class="demo.upload.service.UploadCodecFactory" />
+		</constructor-arg>
+	</bean>
+
+	<bean id="loggingFilter" class="org.apache.mina.filter.logging.LoggingFilter" />
+
+	<!-- filter chain. -->
+	<bean id="filterChainBuilder"
+		class="org.apache.mina.core.filterchain.DefaultIoFilterChainBuilder">
+		<property name="filters">
+			<map>
+				<entry key="loggingFilter" value-ref="loggingFilter" />
+				<entry key="codecFilter" value-ref="snmpCodecFilter" />
+			</map>
+		</property>
+	</bean>
+
+	<bean class="org.springframework.beans.factory.config.CustomEditorConfigurer">
+		<property name="customEditors">
+			<map>
+				<entry key="java.net.SocketAddress">
+					<bean class="org.apache.mina.integration.beans.InetSocketAddressEditor" />
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<!-- IoAcceptor 绑定在 161端口 -->
+	<bean id="ioAcceptor"
+		class="org.apache.mina.transport.socket.nio.NioSocketAcceptor"
+		init-method="bind" destroy-method="unbind">
+		<property name="defaultLocalAddress" value=":8821" />
+		<property name="handler" ref="trapHandler" />
+		<property name="filterChainBuilder" ref="filterChainBuilder" />
+	</bean>
 </beans>

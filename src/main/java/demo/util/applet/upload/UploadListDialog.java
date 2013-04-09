@@ -52,15 +52,25 @@ public class UploadListDialog extends JDialog implements ActionListener,MouseLis
 	private JButton selectAllButton;
 	private FileUploadTableModel uploadTableModel = new FileUploadTableModel();
 	private List<File> uploadFiles = new ArrayList<File>();
+	private String host;
+	private String port;
 	public UploadListDialog() {
+	}
+
+	public UploadListDialog(long allowMaxSize, String allowTypes,
+			String host, String port) {
+		this.allowMaxSize=allowMaxSize;
+		this.allowTypes=allowTypes;
+		this.host=host;
+		this.port=port;
+	}
+
+	public void init() {
 		setTitle("文件上传对话框");
 		this.setSize(500, 312);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
 		
-	}
-
-	public void init() {
 		this.add(uploadButton);
 		uploadButton.setBounds(140, 6, 91, 26);
 		uploadButton.setText("\u5f00\u59cb\u4e0a\u4f20");
@@ -146,6 +156,11 @@ public class UploadListDialog extends JDialog implements ActionListener,MouseLis
 				}
 				uploadTableModel.removeRow(row);
 			}
+		}else if(e.getSource()==uploadButton){
+			UploadFile uploadFile = new UploadFile(host, port);
+			uploadFile.setFiles(uploadFiles);
+			Thread thread = new Thread(uploadFile);
+			thread.start();
 		}
 
 	}
