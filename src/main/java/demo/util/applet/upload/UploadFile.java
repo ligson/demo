@@ -72,18 +72,16 @@ public class UploadFile implements Runnable {
 				stringBuffer.append(";");
 			}
 			System.out.println(stringBuffer.toString());
-			byte[] buf = stringBuffer.toString().getBytes();
+			
 			Socket socket = new Socket(host, Integer.parseInt(port));
 
-			OutputStream outputStream = new BufferedOutputStream(
+			BufferedOutputStream outputStream = new BufferedOutputStream(
 					socket.getOutputStream());
-			outputStream.write(buf);
+			outputStream.write(stringBuffer.toString().getBytes());
 			outputStream.flush();
-			System.err.println("file upload done!");
+			socket.close();
+			System.out.println("file upload done!");
 
-			outputStream.write("quit".getBytes());
-			outputStream.flush();
-			System.err.println("quit!");
 
 		} catch (NumberFormatException e) {
 			e.printStackTrace();

@@ -11,7 +11,7 @@
 	<bean id="trapHandler" class="demo.upload.service.ServerHandler" />
 	<bean id="snmpCodecFilter" class="org.apache.mina.filter.codec.ProtocolCodecFilter">
 		<constructor-arg>
-			<bean class="demo.upload.service.UploadCodecFactory" />
+			<bean class="org.apache.mina.filter.codec.textline.TextLineCodecFactory" />
 		</constructor-arg>
 	</bean>
 
