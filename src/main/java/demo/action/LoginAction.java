@@ -1,12 +1,20 @@
 package demo.action;
 
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang3.StringUtils;
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.components.ActionError;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
 import demo.service.UserService;
+import demo.util.ActionUtils;
 
 public class LoginAction extends ActionSupport {
 
@@ -17,6 +25,15 @@ public class LoginAction extends ActionSupport {
 	private String name;
 	private String password;
 	private UserService userService;
+	private Map<String, Object> result = new HashMap<String, Object>();
+
+	public Map<String, Object> getResult() {
+		return result;
+	}
+
+	public void setResult(Map<String, Object> result) {
+		this.result = result;
+	}
 
 	public UserService getUserService() {
 		return userService;
@@ -58,7 +75,15 @@ public class LoginAction extends ActionSupport {
 		if (getName() == null) {
 			return LOGIN;
 		} else {
-			if (userService.login(getName(), getPassword())) {
+			HttpServletRequest request = ServletActionContext.getRequest();
+			// user-agent:Apache-HttpClient/UNAVAILABLE (java 1.4)
+			boolean isClient = ActionUtils.isHttpClient(request);
+			boolean isSuccess = userService.login(getName(), getPassword());
+			if (isClient) {
+				result.put("success", isSuccess);
+				return "JSON_SUCCESS";
+			}
+			if (isSuccess) {
 				ActionContext
 						.getContext()
 						.getSession()

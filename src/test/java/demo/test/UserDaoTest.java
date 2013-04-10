@@ -31,7 +31,7 @@ public class UserDaoTest {
 
 	@Test
 	public void batchCreateUserTest() {
-		for (int i = 100; i <= 500; i++) {
+		for (int i = 0; i <= 100; i++) {
 			User user = (User) context.getBean("user");
 			user.setBirth(DateUtils.dateToDbFormat(new Date()));
 			user.setName("TestUser" + i);
