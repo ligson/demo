@@ -4,6 +4,8 @@ package demo.aop.advice;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 
+import demo.action.LoginAction;
+
 public class MyAop {
 	public void before(JoinPoint jp) {
 		Object[] args = jp.getArgs();
@@ -20,6 +22,14 @@ public class MyAop {
 		buffer.deleteCharAt(buffer.length()-1);
 		buffer.append(")");
 		System.out.println(buffer.toString());
+		
+		//动态注入参数
+		Object object = jp.getTarget();
+		if(object instanceof LoginAction){
+			//LoginAction loginAction = (LoginAction) object;
+			//loginAction.setName("ligson");
+			//loginAction.setPassword("password");
+		}
 	}
 
 	public void after(JoinPoint jp) {
