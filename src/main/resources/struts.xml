@@ -36,7 +36,7 @@
 			<result name="login">/login.jsp</result>
 			<result name="input">/login.jsp</result>
 			<result name="JSON_SUCCESS" type="json">
-			    <param name="root">resultMap</param>
+			    <param name="root">result</param>
 			</result>
 			<result name="success" type="redirectAction">
 				<param name="namespace">/user</param>

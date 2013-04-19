@@ -12,6 +12,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>注册</title>
+<link href="<%=basePath%>skin/default/css/register.css" type="text/css"
+	rel="stylesheet" />
 <link href="<%=basePath%>js/jquery-ui.css" type="text/css"
 	rel="stylesheet" />
 <script type="text/javascript" src="<%=basePath %>js/jquery-1.8.3.js"></script>
@@ -69,43 +71,34 @@
 				<td><input type="text" name="user.name" value="" id="userName" />
 				</td>
 				<td><span id="userNameErrorMsg"><s:fielderror
-							fieldName="user.name" />
-				</span></td>
+							fieldName="user.name" /> </span></td>
 			</tr>
 			<tr>
 				<td>password</td>
-				<td><input type="text" name="user.password" value="" />
-				</td>
-				<td><s:fielderror fieldName="user.password" />
-				</td>
+				<td><input type="text" name="user.password" value="" /></td>
+				<td><s:fielderror fieldName="user.password" /></td>
 			</tr>
 			<tr>
 				<td>sex</td>
 				<td><input type="radio" name="user.sex" value="" />男，<input
 					type="radio" name="user.sex" value="" />女</td>
-				<td><s:fielderror fieldName="user.sex" />
-				</td>
+				<td><s:fielderror fieldName="user.sex" /></td>
 			</tr>
 			<tr>
 				<td>birth</td>
-				<td><input type="text" name="user.birth" value="" id="datepicker"/>
-				</td>
-				<td><s:fielderror fieldName="user.birth" />
-				</td>
+				<td><input type="text" name="user.birth" value=""
+					id="datepicker" /></td>
+				<td><s:fielderror fieldName="user.birth" /></td>
 			</tr>
 			<tr>
 				<td>email</td>
-				<td><input type="text" name="user.email" value="" />
-				</td>
-				<td><s:fielderror fieldName="user.email" />
-				</td>
+				<td><input type="text" name="user.email" value="" /></td>
+				<td><s:fielderror fieldName="user.email" /></td>
 			</tr>
 			<tr>
-				<td><input type="submit" value="submit">
-				</td>
+				<td><input type="submit" value="submit"></td>
 				<td></td>
-				<td><input type="reset" value="reset">
-				</td>
+				<td><input type="reset" value="reset"></td>
 			</tr>
 		</table>
 	</form>

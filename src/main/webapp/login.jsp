@@ -78,7 +78,7 @@
 							</td>
 						</tr>
 						<tr>
-							<td align="right">没有账号？<a>注册一个</a></td>
+							<td align="right">没有账号？<a href="register.jsp">注册一个</a></td>
 						</tr>
 
 					</tbody>
