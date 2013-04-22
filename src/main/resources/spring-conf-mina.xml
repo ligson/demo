@@ -46,4 +46,29 @@
 		<property name="handler" ref="trapHandler" />
 		<property name="filterChainBuilder" ref="filterChainBuilder" />
 	</bean>
+	
+	
+	<bean id="appServerHandler" class="demo.app.service.AppServerHandler" />
+	<bean id="appCodecFilter" class="org.apache.mina.filter.codec.ProtocolCodecFilter">
+		<constructor-arg>
+			<bean class="demo.app.service.AppCodec" />
+		</constructor-arg>
+	</bean>
+	<bean id="appFilterChainBuilder"
+		class="org.apache.mina.core.filterchain.DefaultIoFilterChainBuilder">
+		<property name="filters">
+			<map>
+				<entry key="loggingFilter" value-ref="loggingFilter" />
+				<entry key="codecFilter" value-ref="appCodecFilter" />
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="appAcceptor"
+		class="org.apache.mina.transport.socket.nio.NioSocketAcceptor"
+		init-method="bind" destroy-method="unbind">
+		<property name="defaultLocalAddress" value=":8822" />
+		<property name="handler" ref="appServerHandler" />
+		<property name="filterChainBuilder" ref="appFilterChainBuilder" />
+	</bean>
 </beans>

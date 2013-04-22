@@ -22,8 +22,15 @@ public class MethodInvokeAdvice implements MethodInterceptor {
 				types += (class1[i].getSimpleName() + " arg" + i + ",");
 			}
 		}
-		System.out.println("正在调用方法：" + pObject.getClass().getName() + "."
-				+ method.getName() + "(" + types + ")");
+		
+		StringBuffer buffer = new StringBuffer();
+		buffer.append("正在调用方法：");
+		buffer.append(pObject.getClass().getName());
+		buffer.append(".");
+		buffer.append(method.getName());
+		buffer.append("(" + types + ")");
+		
+		System.out.println(buffer);
 		Object object = invocation.proceed();
 		return object;
 	}

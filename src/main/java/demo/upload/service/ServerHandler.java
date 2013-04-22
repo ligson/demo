@@ -53,13 +53,12 @@ public class ServerHandler extends IoHandlerAdapter {
 			throws Exception {
 		String str = message.toString();
 		System.out.println("Message written..." + str);
-		System.out.println("客户端"
-				+ ((InetSocketAddress) session.getRemoteAddress()).getAddress()
-						.getHostAddress() + "连接成功！");
-		//session.write("ok");
+		String ipAddress = ((InetSocketAddress) session.getRemoteAddress())
+				.getAddress().getHostAddress();
+		System.out.println("客户端" + ipAddress + "连接成功！");
 		if (str.trim().equalsIgnoreCase("quit")) {
 			System.out.println("receive quit!");
-			session.close();//
+			session.close();
 			return;
 		}
 		// Date date = new Date();
