@@ -1,23 +1,32 @@
 package demo.app.service;
 
+
 import javax.crypto.Cipher;
 
-import org.apache.commons.codec.binary.Base64;
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.ProtocolDecoder;
 import org.apache.mina.filter.codec.ProtocolDecoderOutput;
 
-import demo.util.CipherUtils;
+import demo.pki.util.KeyStoreManager;
 
 public class AppDecoder implements ProtocolDecoder{
+	private KeyStoreManager keyStoreManager;
+	
+	public KeyStoreManager getKeyStoreManager() {
+		return keyStoreManager;
+	}
+
+	public void setKeyStoreManager(KeyStoreManager keyStoreManager) {
+		this.keyStoreManager = keyStoreManager;
+	}
 
 	@Override
 	public void decode(IoSession session, IoBuffer in, ProtocolDecoderOutput out)
 			throws Exception {
 		byte[] source = in.array();
 		Cipher cipher = Cipher.getInstance("RSA");
-		cipher.init(Cipher.DECRYPT_MODE, CipherUtils.byte2PrivateKey(Base64.decodeBase64(CipherUtils.privateKeyBase64)));
+		cipher.init(Cipher.DECRYPT_MODE, keyStoreManager.getPrivateKey("rsapublickey-9"));
 		cipher.update(source);
 		byte[] result = cipher.doFinal();
 		out.write(result);

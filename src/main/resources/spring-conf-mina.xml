@@ -39,19 +39,30 @@
 	</bean>
 
 	<!-- IoAcceptor 绑定在 161端口 -->
-	<bean id="ioAcceptor"
-		class="org.apache.mina.transport.socket.nio.NioSocketAcceptor"
+	<bean id="ioAcceptor" class="org.apache.mina.transport.socket.nio.NioSocketAcceptor"
 		init-method="bind" destroy-method="unbind">
 		<property name="defaultLocalAddress" value=":8821" />
 		<property name="handler" ref="trapHandler" />
 		<property name="filterChainBuilder" ref="filterChainBuilder" />
 	</bean>
-	
-	
+
+
 	<bean id="appServerHandler" class="demo.app.service.AppServerHandler" />
+	<bean id="keyStoreManager" class="demo.pki.util.KeyStoreManager"
+		scope="singleton"></bean>
+	<bean id="appEncoder" class="demo.app.service.AppEncoder">
+		<property name="keyStoreManager" ref="keyStoreManager"></property>
+	</bean>
+	<bean id="appDecoder" class="demo.app.service.AppDecoder">
+		<property name="keyStoreManager" ref="keyStoreManager"></property>
+	</bean>
+	<bean id="appCodec" class="demo.app.service.AppCodec">
+		<property name="appEncoder" ref="appEncoder"></property>
+		<property name="appDecoder" ref="appDecoder"></property>
+	</bean>
 	<bean id="appCodecFilter" class="org.apache.mina.filter.codec.ProtocolCodecFilter">
 		<constructor-arg>
-			<bean class="demo.app.service.AppCodec" />
+			<ref bean="appCodec" />
 		</constructor-arg>
 	</bean>
 	<bean id="appFilterChainBuilder"
@@ -63,9 +74,8 @@
 			</map>
 		</property>
 	</bean>
-	
-	<bean id="appAcceptor"
-		class="org.apache.mina.transport.socket.nio.NioSocketAcceptor"
+
+	<bean id="appAcceptor" class="org.apache.mina.transport.socket.nio.NioSocketAcceptor"
 		init-method="bind" destroy-method="unbind">
 		<property name="defaultLocalAddress" value=":8822" />
 		<property name="handler" ref="appServerHandler" />

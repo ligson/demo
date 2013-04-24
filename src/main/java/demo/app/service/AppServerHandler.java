@@ -27,6 +27,7 @@ public class AppServerHandler extends IoHandlerAdapter {
 	public void messageReceived(IoSession session, Object message)
 			throws Exception {
 		super.messageReceived(session, message);
+		System.out.println(message);
 	}
 
 	@Override

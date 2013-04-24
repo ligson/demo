@@ -12,7 +12,7 @@ import javax.crypto.Cipher;
 
 import org.apache.commons.codec.binary.Base64;
 
-import demo.util.CipherUtils;
+import demo.pki.util.CipherUtils;
 
 public class AppKeyGen {
 	public void test() throws Exception{
