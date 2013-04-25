@@ -13,11 +13,17 @@ import java.security.PublicKey;
 import java.security.cert.X509Certificate;
 import java.util.Enumeration;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import demo.util.SystemInit;
 
 public class KeyStoreManager {
 	private static final KeyStore KEY_STORE;
+	private static final Log log;
+	
 	static {
+		log = LogFactory.getLog(KeyStoreManager.class);
 		KEY_STORE = initKeyStore();
 	}
 
@@ -28,15 +34,7 @@ public class KeyStoreManager {
 			if (file.exists()) {
 				keyStore.load(new FileInputStream(file),
 						"password".toCharArray());
-				System.out.println("keyStore size:" + keyStore.size());
-				Enumeration<String> aliases = keyStore.aliases();
-				while (aliases.hasMoreElements()) {
-					String alias = (String) aliases.nextElement();
-					System.out.println(alias);
-					System.out.println(keyStore.getCertificate(alias));
-					System.out.println(keyStore.getKey(alias,
-							"password".toCharArray()));
-				}
+				log.info("keyStore size:" + keyStore.size());
 			} else {
 				KeyPairGenerator generator = KeyPairGenerator
 						.getInstance("RSA");

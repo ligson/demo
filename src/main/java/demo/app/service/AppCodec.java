@@ -28,12 +28,14 @@ public class AppCodec implements ProtocolCodecFactory{
 
 	@Override
 	public ProtocolEncoder getEncoder(IoSession session) throws Exception {
-		return appEncoder;
+		System.out.println("get encoder");
+		return getAppEncoder();
 	}
 
 	@Override
 	public ProtocolDecoder getDecoder(IoSession session) throws Exception {
-		return appDecoder;
+		System.out.println("get decoder");
+		return getAppDecoder();
 	}
 
 }

@@ -15,12 +15,14 @@ public class AppServerHandler extends IoHandlerAdapter {
 	public void sessionCreated(IoSession session) throws Exception {
 		super.sessionCreated(session);
 		sessions.add(session);
+		System.out.println("session create");
 	}
 
 	@Override
 	public void sessionClosed(IoSession session) throws Exception {
 		super.sessionClosed(session);
 		sessions.remove(session);
+		System.out.println("session closed");
 	}
 
 	@Override
@@ -28,6 +30,7 @@ public class AppServerHandler extends IoHandlerAdapter {
 			throws Exception {
 		super.messageReceived(session, message);
 		System.out.println(message);
+		session.close(true);
 	}
 
 	@Override

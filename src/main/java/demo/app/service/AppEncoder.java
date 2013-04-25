@@ -23,6 +23,7 @@ public class AppEncoder implements ProtocolEncoder {
 	@Override
 	public void encode(IoSession session, Object message,
 			ProtocolEncoderOutput out) throws Exception {
+		System.out.println("encoder");
 		byte[] source = message.toString().getBytes();
 		Cipher cipher = Cipher.getInstance("RSA");
 		cipher.init(Cipher.ENCRYPT_MODE,

@@ -47,18 +47,19 @@
 	</bean>
 
 
+	<!-- app server -->
 	<bean id="appServerHandler" class="demo.app.service.AppServerHandler" />
 	<bean id="keyStoreManager" class="demo.pki.util.KeyStoreManager"
 		scope="singleton"></bean>
 	<bean id="appEncoder" class="demo.app.service.AppEncoder">
-		<property name="keyStoreManager" ref="keyStoreManager"></property>
+		<property name="keyStoreManager" ref="keyStoreManager"/>
 	</bean>
 	<bean id="appDecoder" class="demo.app.service.AppDecoder">
-		<property name="keyStoreManager" ref="keyStoreManager"></property>
+		<property name="keyStoreManager" ref="keyStoreManager"/>
 	</bean>
 	<bean id="appCodec" class="demo.app.service.AppCodec">
-		<property name="appEncoder" ref="appEncoder"></property>
-		<property name="appDecoder" ref="appDecoder"></property>
+		<property name="appEncoder" ref="appEncoder"/>
+		<property name="appDecoder" ref="appDecoder"/>
 	</bean>
 	<bean id="appCodecFilter" class="org.apache.mina.filter.codec.ProtocolCodecFilter">
 		<constructor-arg>
@@ -69,7 +70,7 @@
 		class="org.apache.mina.core.filterchain.DefaultIoFilterChainBuilder">
 		<property name="filters">
 			<map>
-				<entry key="loggingFilter" value-ref="loggingFilter" />
+				<!-- <entry key="loggingFilter" value-ref="loggingFilter" /> -->
 				<entry key="codecFilter" value-ref="appCodecFilter" />
 			</map>
 		</property>
