@@ -99,4 +99,5 @@
 		<p>©  2013 ligson. All Rights Reserved. Terms of Use, Privacy and Trademark Standards</p>
 	</div>
 </body>
+<script defer src="http://julying.com/lab/weather/v3/jquery.weather.build.min.js?parentbox=body&moveArea=all&zIndex=1&move=1&drag=1&autoDrop=0&styleSize=big&style=default&area=client"></script>
 </html>

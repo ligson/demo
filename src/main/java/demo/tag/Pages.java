@@ -69,47 +69,51 @@ public class Pages extends Component {
 		int totalPages = getTotalPages(total, max);
 		int currentPage = getCurrentPages(offset, max);
 
-		if (currentPage > 1) {
+		
+		int prevPageNum = currentPage - 1;
+		int nextPageNum = currentPage + 1;
+		
+		if(prevPageNum>=1){
 			sb.append("<h1><a href=\"" + url + "?offset="
 					+ (currentPage - 1 - 1) * max + "&max=" + max
 					+ "\">上一页</a></h1>");
 		}
-		if (currentPage < 10) {
-			for (int i = 0; i < 10; i++) {
-				if (i + 1 != currentPage) {
-					sb.append("<a href=\"" + url + "?offset=" + i * max
-							+ "&max=" + max + "\">" + (i + 1) + "</a>");
-				} else {
-					sb.append("<span>" + (i + 1) + "</span>");
-				}
+		
+		int startPageNum;
+		int endPageNum;
+		
+		if(totalPages<=11&&currentPage<=11){
+			startPageNum = 1;
+			endPageNum = totalPages;
+		}else{
+			startPageNum = currentPage - 5;
+			if(startPageNum<1){
+				startPageNum = 1;
 			}
-		} else {
-			if (totalPages - currentPage < 10) {
-				for (int i = totalPages - 10 - 1; i < totalPages; i++) {
-					if (i + 1 != currentPage) {
-						sb.append("<a href=\"" + url + "?offset=" + i * max
-								+ "&max=" + max + "\">" + (i + 1) + "</a>");
-					} else {
-						sb.append("<span>" + (i + 1) + "</span>");
-					}
-				}
-			} else {
-				for (int i = currentPage - 5; i < currentPage + 5; i++) {
-					if (i + 1 != currentPage) {
-						sb.append("<a href=\"" + url + "?offset=" + i * max
-								+ "&max=" + max + "\">" + (i + 1) + "</a>");
-					} else {
-						sb.append("<span>" + (i + 1) + "</span>");
-					}
-				}
+			endPageNum = startPageNum+10;
+			if(endPageNum>totalPages){
+				endPageNum=totalPages;
 			}
-
+			if(totalPages>11&&endPageNum<=11){
+				endPageNum=11;
+			}
 		}
-		if (currentPage < totalPages) {
+		
+		for (int i = startPageNum; i <=endPageNum; i++) {
+			if (i!= currentPage) {
+				sb.append("<a href=\"" + url + "?offset=" + (i-1)* max
+						+ "&max=" + max + "\">" + i + "</a>");
+			} else {
+				sb.append("<span>" + i + "</span>");
+			}
+		}
+		
+		if(nextPageNum<totalPages){
 			sb.append("<h1><a href=\"" + url + "?offset="
-					+ (currentPage - 1 + 1) * max + "&max=" + max
+					+ currentPage * max + "&max=" + max
 					+ "\">下一页</a></h1>");
 		}
+		
 		try {
 			writer.write(sb.toString());
 		} catch (IOException e) {

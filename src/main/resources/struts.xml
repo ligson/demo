@@ -26,7 +26,7 @@
 	<package name="default" namespace="/" extends="json-default">
 		<default-action-ref name="index" />
 		<action name="index">
-			<result name="success">/index.jsp</result>
+			<result name="success">/login.jsp</result>
 		</action>
 		<action name="register" class="registerAction">
 			<result name="error">/register.jsp</result>

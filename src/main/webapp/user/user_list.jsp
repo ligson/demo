@@ -114,7 +114,7 @@
 		<br /> 总共有条${total}记录,当前在第
 		<s:property value="@demo.tag.Pages@getCurrentPages(offset,10)" />
 		页，共
-		<s:property value="@demo.tag.Pages@getCurrentPages(total,10)" />
+		<s:property value="@demo.tag.Pages@getTotalPages(total,10)" />
 		页
 	</div>
 	<a href="${basePath}user/downloadUserList">download</a>

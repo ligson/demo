@@ -27,16 +27,16 @@ public class AppDecoder implements ProtocolDecoder{
 	public void decode(IoSession session, IoBuffer in, ProtocolDecoderOutput out)
 			throws Exception {
 		System.out.println("decode ....................");
+		IoBuffer buffer = IoBuffer.allocate(100).setAutoExpand(true);
 		byte[] source = in.array();
-		int max = 0;
-		for(int i = source.length-1;i>=0;i--){
-			if(source[i]!=0){
-				max = i;
-				break;
-			}
-		}
-		byte[] result = new byte[max+1];
-		System.arraycopy(source, 0, result, 0, result.length);
+		 while(in.hasRemaining()){
+			 byte b = in.get();
+			 buffer.put(b);
+		 }
+		
+		
+		byte[] result = new byte[buffer.array().length];
+		System.arraycopy(buffer.array(), 0, result, 0, result.length);
 		System.out.println(Arrays.toString(source));
 		System.out.println(Arrays.toString(result));
 		Cipher cipher = Cipher.getInstance("RSA");
