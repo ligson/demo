@@ -45,6 +45,7 @@
 		$("#createRoleDialogBtn").click(function() {
 			$("#createRoleDialog").dialog("open");
 		});
+		$("#updateRoleNameDialog").dialog({autoOpen:false});
 		$("#ff").submit(function(){
 			var nodes = ztree.getSelectedNodes();
 			if(nodes.length==1){
@@ -76,7 +77,11 @@
 		});
 		
 		$("#updateRoleNameBtn").click(function(){
-					
+			var nodes = ztree.getSelectedNodes();
+			var node = nodes[0]; 
+			if(node){
+				$("#updateRoleNameDialog").dialog("open");
+			}
 		});
 	});
 </script>
@@ -118,7 +123,6 @@
 	</div>
 	<div id="updateRoleNameDialog" style="display:none;" title="修改角色名">
 		<span id="roleName"></span>
-		
 	</div>
 </body>
 </html>

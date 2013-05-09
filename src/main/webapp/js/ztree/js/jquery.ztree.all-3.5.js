@@ -612,7 +612,13 @@
 			o = setting.treeObj;
 			// for can't select text
 			o.bind('selectstart', function(e){
-					var n = e.srcElement.nodeName.toLowerCase();
+					var targetN;
+					if(e.srcElement){
+						targetN = e.srcElement;
+					}else{
+						targetN = e.target;
+					}
+					var n = targetN.nodeName.toLowerCase();
 					return (n === "input" || n === "textarea" );
 				}
 			).css({

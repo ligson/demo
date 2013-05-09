@@ -19,9 +19,9 @@
 <link rel="shortcut icon" href="<%=basePath %>skin/default/images/favicon.ico" type="image/x-icon" />
 <title>演示学习-<decorator:title default="装饰器页面..." /></title>
 <link type="text/css" href="<%=basePath %>skin/default/css/base.css" rel="stylesheet"/>
-<link type="text/css" href="<%=basePath%>js/jquery-ui.css" rel="stylesheet"/>
-<script type="text/javascript" src="<%=basePath%>js/jquery-1.8.3.js"></script>
-<script type="text/javascript" src="<%=basePath%>js/jquery-ui-1.9.2.js"></script>
+<link type="text/css" href="<%=basePath%>js/jquery-ui-1.10/development-bundle/themes/smoothness/jquery.ui.all.css" rel="stylesheet"/>
+<script type="text/javascript" src="<%=basePath%>js/jquery-1.9.1.js"></script>
+<script type="text/javascript" src="<%=basePath%>js/jquery-ui-1.10/development-bundle/ui/jquery-ui.custom.js"></script>
 <script type="text/javascript">
 	$(function() {
 		resizeUI();
@@ -30,7 +30,7 @@
 
 		});
 		$("#mylink").mouseenter(function(){
-			alert(a);
+			//alert(a);
 		});
 	});
 	function resizeUI() {
@@ -52,6 +52,8 @@
 	<div id="header">
 		<p><span style="vertical-align:middle;"><img alt="logo" src="<%=basePath%>skin/default/images/icon_youtube_home.png" border="0"></span>&nbsp;演示学习</p>
 		<div>
+			<input type="text" value="请输入关键字" name="keyword"/>
+			<input type="button" value="搜索"/>
 			欢迎你：<a href="${basePath}user/userAction_view?uid=${currentUser.id}" class="my" id="mylink">${currentUser.name}</a>
 			
 				<div id="mymenu" style="display:none;" >
