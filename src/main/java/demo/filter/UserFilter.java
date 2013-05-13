@@ -22,7 +22,9 @@ public class UserFilter extends AbstractInterceptor {
 		Map<String, Object> session = invocation.getInvocationContext()
 				.getSession();
 		HttpServletRequest request = ServletActionContext.getRequest();
+		
 		String uri = request.getRequestURL().toString();
+		System.out.println("JSESSIONID:"+request.getCookies()[0].getValue());
 		System.out.println("正在访问地址：" + uri);
 
 		Object currentUser = session.get("currentUser");

@@ -1,6 +1,6 @@
 package demo.action;
 
-import java.util.Enumeration;
+import java.util.Enumeration; 
 import java.util.HashMap;
 import java.util.Map;
 
@@ -74,6 +74,7 @@ public class LoginAction extends ActionSupport {
 
 	@Override
 	public String execute() throws Exception {
+		//System.out.println("JSESSIONID:"+ServletActionContext.getRequest().getCookies()[0].getValue());
 		if (getName() == null) {
 			return LOGIN;
 		} else {
