@@ -113,6 +113,9 @@
 		</action>
 		<action name="userAction_*" class="userAction" method="{1}">
 			<result name="success">/user/user_{1}.jsp</result>
+			<result name="JSON_SUCCESS" type="json">
+			    <param name="root">result</param>
+			</result>
 			<result name="list" type="redirectAction">
 				<param name="namespace">/user</param>
 				<param name="actionName">userAction_list</param>

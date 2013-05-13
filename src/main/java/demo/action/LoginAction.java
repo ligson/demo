@@ -4,6 +4,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
@@ -13,6 +14,7 @@ import org.apache.struts2.components.ActionError;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
+import demo.domain.User;
 import demo.service.UserService;
 import demo.util.ActionUtils;
 
@@ -75,22 +77,25 @@ public class LoginAction extends ActionSupport {
 		if (getName() == null) {
 			return LOGIN;
 		} else {
-			HttpServletRequest request = ServletActionContext.getRequest();
-			// user-agent:Apache-HttpClient/UNAVAILABLE (java 1.4)
-			boolean isClient = ActionUtils.isHttpClient(request);
 			boolean isSuccess = userService.login(getName(), getPassword());
-			if (isClient) {
-				result.put("success", isSuccess);
-				return "JSON_SUCCESS";
-			}
+			
 			if (isSuccess) {
+				User currentUser = userService.getUserByNameAndPassword(getName(),
+						getPassword()); 
 				ActionContext
 						.getContext()
 						.getSession()
 						.put("currentUser",
-								userService.getUserByNameAndPassword(getName(),
-										getPassword()));
-				return SUCCESS;
+								currentUser);
+				ServletActionContext.getRequest().getSession().setAttribute("currentUser", currentUser);
+				
+				boolean isClient = ActionUtils.isHttpClient();
+				if (isClient) {
+					result.put("success", isSuccess);
+					return "JSON_SUCCESS";
+				}else{
+					return SUCCESS;
+				}
 			} else {
 				addActionError("用户名不存在或者密码错误！");
 				return LOGIN;

@@ -21,6 +21,7 @@ import com.opensymphony.xwork2.ActionSupport;
 import demo.domain.User;
 import demo.service.MailService;
 import demo.service.UserService;
+import demo.util.ActionUtils;
 
 public class UserAction extends ActionSupport {
 
@@ -110,7 +111,14 @@ public class UserAction extends ActionSupport {
 	public String list() {
 		users = userService.list(offset, max);
 		total = userService.countUsers();
-		return SUCCESS;
+		if(ActionUtils.isHttpClient()){
+			result.clear();
+			result.put("total", total);
+			result.put("result", users);
+			return "JSON_SUCCESS";
+		}else {
+			return SUCCESS;
+		}
 	}
 
 	public String view() {
