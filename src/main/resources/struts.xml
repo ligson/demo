@@ -195,6 +195,11 @@
 				<param name="root">result</param>
 			</result>
 		</action>
+		<action name="modifyRoleName" class="modifyRoleAction" method="modifyRoleName">
+			<result name="success" type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
 
 		<action name="roleTreeAction" class="roleTreeAction">
 			<result name="success">/role/roleTree.jsp</result>

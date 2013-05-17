@@ -82,9 +82,9 @@ public class RoleServiceImpl implements RoleService {
 		// TODO Auto-generated method stub
 		long count = roleDao.countBy("name", name);
 		if (count == 0) {
-			Role role = roleDao.getById(id);
-			role.setName(name);
-			roleDao.saveOrUpdate(role);
+			roleDao.updateProperty("name", name, id);
+		}else {
+			throw new RuntimeException("name not unique");
 		}
 	}
 

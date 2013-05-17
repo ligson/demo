@@ -16,15 +16,14 @@
 <link href="<%=basePath %>js/jquery-ui.css" type="text/css"
 	rel="stylesheet" />
 <script type="text/javascript" src="<%=basePath %>js/date.js"></script>
-<script type="text/javascript" src="<%=basePath %>js/jquery-ui-1.9.2.js"></script>
-<script type="text/javascript"
-	src="<%=basePath %>js/jquery.ui.datepicker-zh-CN.js"></script>
 <script type="text/javascript">
 	$(function() {
 		$("#datepicker").datepicker({
 			showOn : "button",
 			buttonImage : "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif",
-			buttonImageOnly : true
+			buttonImageOnly : true,
+			changeMonth: true,
+		    changeYear: true,
 		});
 		$("#datepicker").datepicker("setDate",Date.parseFromText("<s:property value='user.birth' />","yyyyMMddHHmmss"));
 		$("#ff").submit(function(){
@@ -67,7 +66,7 @@
 			</tr>
 			<tr>
 				<td>birth</td>
-				<td><input type="text" id="datepicker" value="" /></td>
+				<td><input type="text" id="datepicker" value="" disabled="disabled" /></td>
 				<td></td>
 			</tr>
 			<tr>

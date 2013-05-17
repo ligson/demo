@@ -13,90 +13,10 @@
 <title>角色</title>
 <link rel="stylesheet" type="text/css"
 	href="<%=basePath%>js/ztree/css/zTreeStyle/zTreeStyle.css">
-<link href="<%=basePath%>js/jquery-ui.css" type="text/css"
-	rel="stylesheet" />
-<script type="text/javascript" src="<%=basePath%>js/jquery-ui-1.9.2.js"></script>
 <script type="text/javascript"
 	src="<%=basePath%>js/ztree/js/jquery.ztree.all-3.5.js"></script>
-<script type="text/javascript">
-	var ztree;
-	var baseUrl = "<%=basePath%>";
-	function zTreeOnAsyncSuccess(event, treeId, treeNode, msg) {
-		var nodes = ztree.getNodes();
-
-	}
-	$(function() {
-		var zNodes = [];
-		var setting = {
-			async : {
-				enable : true,
-				url : baseUrl + "role/listRoleAction",
-				autoParam : [ "id=pid" ]
-			},
-			callback : {
-				onAsyncSuccess : zTreeOnAsyncSuccess
-			}
-		};
-		ztree = $.fn.zTree.init($("#ztree"), setting);
-		//ztree.refresh();
-		$("#createRoleDialog").dialog({
-			autoOpen : false
-		});
-		$("#createRoleDialogBtn").click(function() {
-			$("#createRoleDialog").dialog("open");
-		});
-		$("#updateRoleNameDialog").dialog({
-			autoOpen : false,
-			buttons : {
-				"提交" : function() {
-					$(this).dialog("close");
-				},
-				Cancel : function() {
-					$(this).dialog("close");
-				}
-			}
-		});
-		$("#ff").submit(function() {
-			var nodes = ztree.getSelectedNodes();
-			if (nodes.length == 1) {
-				$("input[name='pid']").val(nodes[0].id);
-			}
-		});
-		$("#testBtn").click(function() {
-			var nodes = ztree.getSelectedNodes();
-			alert(nodes[0]);
-		});
-
-		var isRemove = false;
-		$("#removeRoleBtn").click(function() {
-			var nodes = ztree.getSelectedNodes();
-			if (nodes[0]) {
-				$.post(baseUrl + "role/countChildRoleAction", {
-					pid : nodes[0].id
-				}, function(data) {
-					if (data.count > 0) {
-						confirm("该角色下还有其他角色不能删除");
-						isRemove = false;
-					} else {
-						if (confirm("你确定要删除吗？")) {
-							$("#rf>input[name='pid']").val(nodes[0].id);
-							$("#rf").submit();
-						}
-						isRemove = true;
-					}
-				});
-			}
-		});
-
-		$("#updateRoleNameBtn").click(function() {
-			var nodes = ztree.getSelectedNodes();
-			var node = nodes[0];
-			if (node) {
-				$("#updateRoleNameDialog").dialog("open");
-			}
-		});
-	});
-</script>
+<script type="text/javascript"
+	src="<%=basePath%>js/roleTree.js"></script>
 <style type="text/css">
 #cleft {
 	width: 300px;
@@ -107,7 +27,7 @@
 }
 
 #cright {
-    width:200px;
+	width: 200px;
 	background: #FFF;
 	float: left;
 }
@@ -131,14 +51,11 @@
 		<form action="<%=basePath%>role/createRoleAction" method="post"
 			id="ff">
 			<input type="hidden" name="pid" value="" /> name:<input type="text"
-				name="role.name" value="" /><br /> <input type="submit"
-				value="tijiao" />
-
+				name="role.name" value="" />
 		</form>
 	</div>
 	<div id="updateRoleNameDialog" style="display: none;" title="修改角色名">
-		 输入角色名：<input type="text" id="roleName"
-			value="" />
+		输入角色名：<input type="text" id="roleName" name="roleName" value="" />
 	</div>
 </body>
 </html>
