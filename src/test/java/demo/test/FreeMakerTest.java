@@ -15,7 +15,7 @@ import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
 public class FreeMakerTest {
-	@Test
+	//@Test
 	public void templateTest() {
 		File file = new File(
 				"./src/main/webapp/mailTemplate/ModifyPassword.html");

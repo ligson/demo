@@ -63,7 +63,8 @@ public class SystemInit extends ContextLoaderListener implements
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		setWebRootPath();
-		System.out.println("http://127.0.0.1:8080/demo");
+		log.info("server url: http://127.0.0.1:8080/demo");
+		log.info("webservices address: http://localhost:8080/demo/services/demoUserService?wsdl");
 	}
 
 	public void setWebRootPath() {

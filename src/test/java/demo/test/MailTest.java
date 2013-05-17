@@ -29,17 +29,7 @@ public class MailTest {
 	          System.out.println("成功："+UUID.randomUUID().toString());
 	}
 	
-	@Test
 	public void send() {
-		for(int i = 0;i<100;i++){
-			sendMail();
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		
+		send();
 	}
 }

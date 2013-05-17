@@ -1,12 +1,16 @@
 package demo.aop.advice;
 
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 
 import demo.action.LoginAction;
 
 public class MyAop {
+	
+	private static Log log = LogFactory.getLog(MyAop.class);
 	public void before(JoinPoint jp) {
 		Object[] args = jp.getArgs();
 		StringBuffer buffer = new StringBuffer();
@@ -21,7 +25,7 @@ public class MyAop {
 		}
 		buffer.deleteCharAt(buffer.length()-1);
 		buffer.append(")");
-		System.out.println(buffer.toString());
+		log.debug(buffer.toString());
 		
 		//动态注入参数
 		Object object = jp.getTarget();
@@ -46,14 +50,14 @@ public class MyAop {
 		}
 		buffer.deleteCharAt(buffer.length()-1);
 		buffer.append(")");
-		System.out.println(buffer.toString());
+		log.debug(buffer.toString());
 	}
 
 	public Object around(ProceedingJoinPoint pjp) throws Throwable {
 		long time = System.nanoTime();
 		Object retVal = pjp.proceed();
 		time = System.nanoTime() - time;
-		System.out.println("方法调用时间: " + (time/1000.000) + " ms");
+		log.debug("方法调用时间: " + (time/1000.000) + " ms");
 		return retVal;
 	}
 }

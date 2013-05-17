@@ -8,7 +8,6 @@ import org.hibernate.cfg.Configuration;
 import demo.domain.Role;
 
 public class HibernateTest {
-	@org.junit.Test
 	public void test() {
 		SessionFactory sessionFactory=new Configuration().configure().buildSessionFactory();
 		Session session = sessionFactory.openSession();

@@ -4,9 +4,12 @@ import java.lang.reflect.Method;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 public class MethodInvokeAdvice implements MethodInterceptor {
 
+	private static Log log = LogFactory.getLog(MethodInvokeAdvice.class);
 	@Override
 	public Object invoke(MethodInvocation invocation) throws Throwable {
 		// TODO Auto-generated method stub
@@ -30,7 +33,7 @@ public class MethodInvokeAdvice implements MethodInterceptor {
 		buffer.append(method.getName());
 		buffer.append("(" + types + ")");
 		
-		System.out.println(buffer);
+		log.debug(buffer);
 		Object object = invocation.proceed();
 		return object;
 	}
