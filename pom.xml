@@ -23,6 +23,7 @@
 		<poi.version>3.8</poi.version>
 		<codec.version>1.7</codec.version>
 		<bouncycastle.version>140</bouncycastle.version>
+		<quartz.version>2.1.7</quartz.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<build>
@@ -253,6 +254,10 @@
 			<artifactId>bcprov-jdk15</artifactId>
 			<version>${bouncycastle.version}</version>
 		</dependency>
-
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+			<version>${quartz.version}</version>
+		</dependency>
 	</dependencies>
 </project>
