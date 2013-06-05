@@ -24,6 +24,7 @@
 		<codec.version>1.7</codec.version>
 		<bouncycastle.version>140</bouncycastle.version>
 		<quartz.version>2.1.7</quartz.version>
+		<httpclient.version>4.3-beta1</httpclient.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<build>
@@ -258,6 +259,13 @@
 			<groupId>org.quartz-scheduler</groupId>
 			<artifactId>quartz</artifactId>
 			<version>${quartz.version}</version>
+		</dependency>
+
+		<!-- httpclient -->
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>${httpclient.version}</version>
 		</dependency>
 	</dependencies>
 </project>
