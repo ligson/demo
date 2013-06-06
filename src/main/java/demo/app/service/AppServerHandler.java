@@ -1,6 +1,7 @@
 package demo.app.service;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -29,13 +30,17 @@ public class AppServerHandler extends IoHandlerAdapter {
 	public void messageReceived(IoSession session, Object message)
 			throws Exception {
 		super.messageReceived(session, message);
-		System.out.println(message);
-		session.close(true);
+		System.out.println("收到消息:" + message);
+		System.out.println(sessions.size());
+		System.out.println(session.getClass().getName());
+		session.write(new Date().toString());
+
+		// session.close(true);
 	}
 
 	@Override
 	public void messageSent(IoSession session, Object message) throws Exception {
-		super.messageSent(session, message);
+		System.out.println("发送消息成功：" + message);
 	}
 
 }

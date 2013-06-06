@@ -110,6 +110,9 @@ body{
 	padding-left: 50px;
 	float: left;
 }
+.nav h1:hover{
+	cursor:pointer;
+}
 
 .nav span,.nav span a {
 	font-size: 12px;

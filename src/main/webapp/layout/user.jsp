@@ -44,6 +44,10 @@
 		$("#mylink").mouseenter(function() {
 			//alert(a);
 		});
+		
+		$("#left .nav h1").click(function(){
+			$(this).nextAll("span").toggle("slow");
+		});
 	});
 	function resizeUI() {
 		var ww = $(window).width();
