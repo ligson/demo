@@ -40,7 +40,11 @@
 	<bean id="uploadTestAction" class="demo.action.UploadTestAction"
 		scope="prototype">
 	</bean>
-	
-	<bean id="roleTreeAction" class="demo.role.action.RoleTreeAction" scope="prototype" autowire="byName"></bean>
-	<bean id="modifyRoleAction" class="demo.role.action.ModifyRoleAction" scope="prototype" autowire="byName"></bean>
+
+	<bean id="roleTreeAction" class="demo.role.action.RoleTreeAction"
+		scope="prototype" autowire="byName"></bean>
+	<bean id="modifyRoleAction" class="demo.role.action.ModifyRoleAction"
+		scope="prototype" autowire="byName"></bean>
+	<bean id="searchAction" class="demo.search.action.SearchAction"
+		scope="prototype" autowire="byName"></bean>
 </beans>

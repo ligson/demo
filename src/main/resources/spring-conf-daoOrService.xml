@@ -48,7 +48,12 @@
 	</bean>
 
 	<bean id="mailService" class="demo.service.impl.MailServiceImpl">
-	    <property name="mailConfig" ref="mailConfig"/>
+		<property name="mailConfig" ref="mailConfig" />
+	</bean>
+
+
+	<bean id="searchService" class="demo.search.service.impl.SearchServiceImpl" init-method="init">
+		<property name="solrUrl" value="http://localhost:8080/mysolr/nutch"></property>
 	</bean>
 
 </beans>

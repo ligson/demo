@@ -14,23 +14,28 @@
 			<name>offset</name>  <!-- 属性名 -->
 			<required>true</required>  <!-- 是否必须 -->
 			<rtexprvalue>true</rtexprvalue>  <!-- 表示该自定义标签的某属性的值可以直接指定或者通过动态计算指定 -->
-			<type>int</type>	
+			<type>int</type>
 		</attribute>
 		<attribute>   <!-- 标签中的属性 -->
 			<name>max</name>  <!-- 属性名 -->
 			<required>false</required>  <!-- 是否必须 -->
 			<rtexprvalue>true</rtexprvalue>  <!-- 表示该自定义标签的某属性的值可以直接指定或者通过动态计算指定 -->
-			<type>int</type>	
+			<type>int</type>
 		</attribute>
 		<attribute>
 			<name>total</name>
 			<required>true</required>
 			<rtexprvalue>true</rtexprvalue>
-			<type>int</type>	
+			<type>int</type>
 		</attribute>
 		<attribute>
 			<name>url</name>
 			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>params</name>
+			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 	</tag>

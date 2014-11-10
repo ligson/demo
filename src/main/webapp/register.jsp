@@ -14,13 +14,15 @@
 <title>注册</title>
 <link href="<%=basePath%>skin/default/css/register.css" type="text/css"
 	rel="stylesheet" />
-<link href="<%=basePath%>js/jquery-ui.css" type="text/css"
-	rel="stylesheet" />
-<script type="text/javascript" src="<%=basePath %>js/jquery-1.8.3.js"></script>
-<script type="text/javascript" src="<%=basePath %>js/date.js"></script>
-<script type="text/javascript" src="<%=basePath %>js/jquery-ui-1.9.2.js"></script>
+<link
+	href="<%=basePath%>js/jquery-ui-1.10/css/smoothness/jquery-ui-1.10.3.custom.css"
+	type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="<%=basePath%>js/jquery-1.9.1.js"></script>
+<script type="text/javascript" src="<%=basePath%>js/date.js"></script>
 <script type="text/javascript"
-	src="<%=basePath %>js/jquery.ui.datepicker-zh-CN.js"></script>
+	src="<%=basePath%>js/jquery-ui-1.10/js/jquery-ui-1.10.3.custom.js"></script>
+<script type="text/javascript"
+	src="<%=basePath%>js/jquery-ui-1.10/development-bundle/ui/i18n/jquery.ui.datepicker-zh-CN.js"></script>
 <script type="text/javascript">
 	$(function(){
 		$("#userName").blur(function(){

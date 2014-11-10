@@ -13,6 +13,15 @@ public class Pages extends Component {
 	private int max;
 	private int total;
 	private String url;
+	private String params;
+
+	public String getParams() {
+		return params;
+	}
+
+	public void setParams(String params) {
+		this.params = params;
+	}
 
 	public int getOffset() {
 		return offset;
@@ -69,51 +78,69 @@ public class Pages extends Component {
 		int totalPages = getTotalPages(total, max);
 		int currentPage = getCurrentPages(offset, max);
 
-		
 		int prevPageNum = currentPage - 1;
 		int nextPageNum = currentPage + 1;
-		
-		if(prevPageNum>=1){
-			sb.append("<h1><a href=\"" + url + "?offset="
-					+ (currentPage - 1 - 1) * max + "&max=" + max
-					+ "\">上一页</a></h1>");
+
+		if (prevPageNum >= 1) {
+			if (getParams() != null) {
+				sb.append("<h1><a href=\"" + url + "?offset="
+						+ (currentPage - 1 - 1) * max + "&max=" + max + "&"
+						+ params + "\">上一页</a></h1>");
+			} else {
+				sb.append("<h1><a href=\"" + url + "?offset="
+						+ (currentPage - 1 - 1) * max + "&max=" + max
+						+ "\">上一页</a></h1>");
+			}
+
 		}
-		
+
 		int startPageNum;
 		int endPageNum;
-		
-		if(totalPages<=11&&currentPage<=11){
+
+		if (totalPages <= 11 && currentPage <= 11) {
 			startPageNum = 1;
 			endPageNum = totalPages;
-		}else{
+		} else {
 			startPageNum = currentPage - 5;
-			if(startPageNum<1){
+			if (startPageNum < 1) {
 				startPageNum = 1;
 			}
-			endPageNum = startPageNum+10;
-			if(endPageNum>totalPages){
-				endPageNum=totalPages;
+			endPageNum = startPageNum + 10;
+			if (endPageNum > totalPages) {
+				endPageNum = totalPages;
 			}
-			if(totalPages>11&&endPageNum<=11){
-				endPageNum=11;
+			if (totalPages > 11 && endPageNum <= 11) {
+				endPageNum = 11;
 			}
 		}
-		
-		for (int i = startPageNum; i <=endPageNum; i++) {
-			if (i!= currentPage) {
-				sb.append("<a href=\"" + url + "?offset=" + (i-1)* max
-						+ "&max=" + max + "\">" + i + "</a>");
+
+		for (int i = startPageNum; i <= endPageNum; i++) {
+			if (i != currentPage) {
+				if (getParams() != null) {
+					sb.append("<a href=\"" + url + "?offset=" + (i - 1) * max
+							+ "&max=" + max + "&" + params + "\">" + i + "</a>");
+				} else {
+					sb.append("<a href=\"" + url + "?offset=" + (i - 1) * max
+							+ "&max=" + max + "\">" + i + "</a>");
+				}
+
 			} else {
 				sb.append("<span>" + i + "</span>");
 			}
 		}
-		
-		if(nextPageNum<totalPages){
-			sb.append("<h1><a href=\"" + url + "?offset="
-					+ currentPage * max + "&max=" + max
-					+ "\">下一页</a></h1>");
+
+		if (nextPageNum < totalPages) {
+			if (getParams() != null) {
+				sb.append("<h1><a href=\"" + url + "?offset=" + currentPage
+						* max + "&max=" + max + "&" + params
+						+ "\">下一页</a></h1>");
+			} else {
+				sb.append("<h1><a href=\"" + url + "?offset=" + currentPage
+						* max + "&max=" + max + "\">下一页</a></h1>");
+			}
+
 		}
-		
+
 		try {
 			writer.write(sb.toString());
 		} catch (IOException e) {

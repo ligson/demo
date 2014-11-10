@@ -29,7 +29,7 @@ public class UserDaoTest {
 		System.out.println(id);
 	}
 
-	//@Test
+	@Test
 	public void batchCreateUserTest() {
 		for (int i = 0; i <= 100; i++) {
 			User user = (User) context.getBean("user");

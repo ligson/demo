@@ -31,9 +31,7 @@
 	<bean class="org.springframework.beans.factory.config.CustomEditorConfigurer">
 		<property name="customEditors">
 			<map>
-				<entry key="java.net.SocketAddress">
-					<bean class="org.apache.mina.integration.beans.InetSocketAddressEditor" />
-				</entry>
+				<entry key="java.net.SocketAddress" value="org.apache.mina.integration.beans.InetSocketAddressEditor"></entry>
 			</map>
 		</property>
 	</bean>

@@ -9,7 +9,7 @@
 	<constant name="struts.ognl.allowStaticMethodAccess" value="true" />
 	<constant name="struts.devMode" value="true" />
 	<constant name="struts.objectFactory" value="spring" />
-	<constant name="struts.action.excludePattern" value="/services.*"/>
+	<constant name="struts.action.excludePattern" value="/services.*" />
 	<!--解决乱码 -->
 	<constant name="struts.i18n.encoding" value="UTF-8" />
 	<!-- 指定允许上传的文件最大字节数。默认值是2097152(2M) -->
@@ -36,7 +36,7 @@
 			<result name="login">/login.jsp</result>
 			<result name="input">/login.jsp</result>
 			<result name="JSON_SUCCESS" type="json">
-			    <param name="root">result</param>
+				<param name="root">result</param>
 			</result>
 			<result name="success" type="redirectAction">
 				<param name="namespace">/user</param>
@@ -44,7 +44,7 @@
 			</result>
 		</action>
 		<action name="logout" class="logoutAction">
-		    <result type="redirect">/login.jsp</result>
+			<result type="redirect">/login.jsp</result>
 		</action>
 
 		<action name="checkNameUnique" class="checkNameUniqueAction">
@@ -114,7 +114,7 @@
 		<action name="userAction_*" class="userAction" method="{1}">
 			<result name="success">/user/user_{1}.jsp</result>
 			<result name="JSON_SUCCESS" type="json">
-			    <param name="root">result</param>
+				<param name="root">result</param>
 			</result>
 			<result name="list" type="redirectAction">
 				<param name="namespace">/user</param>
@@ -145,15 +145,22 @@
 			</result>
 			<result name="error">/user/user_modify.jsp</result>
 		</action>
-		
+
 		<action name="sendMailAction" class="userAction" method="sendMail">
-		    <result type="json">
+			<result type="json">
 				<param name="root">result</param>
 			</result>
 		</action>
 
 	</package>
-
+	<package name="search" namespace="/search" extends="json-default">
+		<action name="index" class="searchAction" method="index">
+			<result name="success">/search/index.jsp</result>
+		</action>
+		<action name="search" class="searchAction" method="search">
+			<result name="success">/search/search.jsp</result>
+		</action>
+	</package>
 	<package name="role" namespace="/role" extends="json-default">
 		<interceptors>
 			<!-- 定义权限控制拦截器 -->

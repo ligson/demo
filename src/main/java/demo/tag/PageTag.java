@@ -18,6 +18,15 @@ public class PageTag extends ComponentTagSupport {
 	private int max = 10;
 	private int total;
 	private String url;
+	private String params;
+
+	public String getParams() {
+		return params;
+	}
+
+	public void setParams(String params) {
+		this.params = params;
+	}
 
 	public int getOffset() {
 		return offset;
@@ -64,6 +73,7 @@ public class PageTag extends ComponentTagSupport {
 		super.populateParams();
 		Pages pages = (Pages) component;
 		pages.setMax(max);
+		pages.setParams(getParams());
 		pages.setOffset(offset);
 		pages.setTotal(total);
 		pages.setUrl(url);
